@@ -12,7 +12,7 @@ export const settings = {
   navbarStyle: 'card',
   // apiUrl: 'http://laundry.viprasfacilityerp.com/',
   // apiUrl: 'http://localhost:9090', //http://localhost:9090/docs/
-  apiUrl: "http://localhost:9091",
+  apiUrl: "http://localhost:9095",
 
   documentApiUrl: 'https://viprasfacilityerp.com',
 };
