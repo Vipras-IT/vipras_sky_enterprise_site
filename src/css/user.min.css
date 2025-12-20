@@ -1,0 +1,481 @@
+body {
+  font-size: 16px !important;
+}
+
+.Alignheader {
+  margin-top: 18px;
+}
+
+.LineSpace {
+  line-height: 2.6;
+}
+
+.Alignbox {
+  padding: 15px;
+}
+
+.bg-red {
+  background-color: #a91605;
+}
+
+.text-red {
+  color: #a91605;
+}
+
+.bg-red h5 {
+  color: #fff;
+}
+
+.alignbutton {
+  float: right;
+  margin-right: 800px;
+}
+
+.attendance-btn {
+  width: 105px;
+}
+
+.attendance-continue-btn {
+  width: 160px;
+}
+
+.checkin-data {
+  margin-bottom: 0.5rem;
+}
+
+.poster-container {
+  border-radius: 15px;
+  cursor: pointer;
+  perspective: 600;
+  margin: 15px;
+}
+
+.poster {
+  height: 100%;
+  /* position: absolute;
+  transform-style: preserve-3d;
+  transition: all 1s ease-in-out; */
+  display: flex;
+  justify-content: center;
+}
+
+.flipped {
+  /* transform: rotateY(180deg); */
+}
+
+.poster .pic {
+  /* backface-visibility: hidden; */
+  border-radius: 6px;
+  height: 100%;
+  /* position: absolute;
+  overflow: hidden; */
+  width: 100%;
+}
+
+.poster .back {
+  text-align: center;
+  width: 204px;
+  height: 300px;
+  /* transform: rotateY(180deg); */
+  box-shadow: none;
+  border: none;
+}
+
+.poster .front {
+  text-align: center;
+  width: 204px;
+  height: 300px;
+  box-shadow: none;
+  border: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-padding-y {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.avatar-id-card {
+  height: 7rem !important;
+  width: 7.5rem !important;
+}
+
+.file-progress-bar {
+  margin-top: 0.5rem;
+}
+
+.file-upload-area {
+  height: 53px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation-container button {
+  margin-right: 5px;
+}
+
+.width-15 {
+  width: 15rem;
+}
+
+.width-15 option[target='value'] {
+  font-size: 15px !important;
+  font-family: 'Times New Roman', Times, serif !important;
+}
+
+.no-result-found {
+  padding: 1.5rem;
+}
+
+.card-text,
+.fw-normal {
+  font-size: 0.9rem;
+}
+
+.list-group-item {
+  font-size: 0.9rem;
+}
+
+.id-card-image {
+  opacity: 0.1;
+  margin-top: 2rem;
+}
+
+.id-card-image-content {
+  top: 60px !important;
+}
+
+.sign-text {
+  color: #f53722;
+}
+
+.id-back-text {
+  margin-top: 0.5rem;
+}
+
+.id-back-title-text {
+  color: #f53722;
+}
+
+.id-card-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.id-card-text {
+  min-width: 10rem;
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.editable-row .ant-form-item-explain {
+  position: absolute;
+  top: 100%;
+  font-size: 12px;
+}
+
+.ant-input {
+  min-width: 55px;
+}
+
+.shift-option {
+  margin-bottom: 0;
+  padding-right: 5px;
+  font-weight: bold;
+}
+
+.scrollbar .navbar-nav .dropdown .nav-link {
+  font-size: 16px !important;
+}
+
+.link-600,
+.fs-16,
+.fw-semi-bold {
+  font-size: 16px !important;
+}
+
+.bg-200,
+.btn-reveal-trigger td,
+.form-label {
+  font-size: 16px;
+}
+
+.ant-table-cell {
+  font-size: 15px;
+  font-family: 'Times New Roman', Times, serif !important;
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar {
+  width: 6px;
+  /* Width of the scrollbar */
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Color of the thumb */
+  border-radius: 3px;
+  /* Rounded corners for the thumb */
+}
+
+/* Style the scrollbar track when it's hovering */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Color of the thumb on hover */
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* Color of the track */
+  border-radius: 3px;
+  /* Rounded corners for the track */
+}
+
+.form-control {
+  padding: 7px 11px;
+  font-size: 16px;
+  line-height: 1.4998 !important;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+}
+
+.textStyle {
+  color: #5e6e82 !important;
+}
+
+.fontSize16 {
+  font-size: 16px !important;
+}
+
+.invalid-feedback {
+  font-size: 100% !important;
+}
+
+.ant-tabs-tab {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: none !important;
+}
+
+.ant-tabs-tab-active {
+  background-color: #a91605 !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important;
+}
+
+.ant-tabs-nav-wrap {
+  border-bottom: 2px solid #a91605;
+}
+
+.cell-color-red {
+  color: #f70505;
+}
+
+.min-h-30 {
+  height: 25rem !important;
+}
+
+.salary-text-table-td {
+  padding: 0.1rem 0 !important;
+}
+
+.salary-text-table {
+  font-size: 0.8rem;
+  color: #000;
+  font-family: 'Poppins', Times, serif !important;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.salary-text {
+  font-size: 0.9rem;
+  color: #000;
+  font-family: 'Poppins', Times, serif !important;
+  font-weight: 600;
+}
+.salary-head {
+  font-size: 0.9rem;
+  color: #000;
+  font-family: 'Poppins', Times, serif !important;
+  font-weight: 600;
+}
+.salary-head1 {
+  font-size: 0.9rem;
+  color: #000;
+  font-family: 'Poppins', Times, serif !important;
+  font-weight: 600;
+}
+.attendance-text {
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.text-color-black {
+  color: #000;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.new-id-card {
+  margin: 0.5;
+}
+
+.mw-150 {
+  min-width: 150px;
+}
+
+.mw-75 {
+  min-width: 75px;
+}
+
+.card-font-size {
+  font-size: 12px !important;
+  font-weight: bold;
+  color: #000;
+}
+
+.id-card-image-new {
+  height: 25px;
+}
+
+.back-card-text-size {
+  font-size: 8px !important;
+  font-weight: bold;
+  color: #000;
+}
+
+.back-text-p {
+  margin-bottom: 0 !important;
+}
+
+.back-text-p2 {
+  font-size: 10px !important;
+  font-weight: bold;
+  color: #000;
+}
+
+.back-text-p1 {
+  font-size: 11px !important;
+  font-weight: bold;
+  color: #000;
+}
+
+.shift-select {
+  min-width: 250px;
+}
+
+.invoice-logo-img {
+  margin-top: -30px;
+}
+
+.width-180 {
+  width: 200px;
+}
+
+.width-300 {
+  width: 300px;
+}
+
+.month-container {
+  margin-top: 1.5rem;
+}
+
+.card-title-min-h {
+  min-height: 3rem;
+}
+.table-font {
+  font-size: 1rem;
+}
+.table-paraFont {
+  font-size: 0.9rem;
+}
+.green-bg {
+  background-color: #008046;
+  color: white;
+}
+
+.blue-bg {
+  background-color: #4fb2da;
+  color: white;
+}
+
+.orange-bg {
+  background-color: #c07a02;
+  color: white;
+}
+
+.red-bg {
+  background-color: #b80000;
+  color: white;
+}
+
+.print-page {
+  width: 21cm;
+  min-height: 29.7cm;
+  /* padding: 2cm; */
+  margin: 1cm auto;
+  font-family: 'Outfit', sans-serif;
+  /* border: 1px #d3d3d3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+.print-subpage {
+  padding: 0.2cm;
+  /* border: 1px black solid; */
+  /* height: 256mm; */
+  /* outline: 2cm #ffeaea solid; */
+}
+
+.invoice-title {
+  text-align: CENTER;
+  color: #000;
+  font-family: 'Poppins', Times, serif !important;
+}
+
+.invoice-th {
+  font-size: 0.73rem !important;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  .print-page {
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+  }
+}
