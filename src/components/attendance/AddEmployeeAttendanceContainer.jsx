@@ -26,6 +26,12 @@ const AddAttendanceContainer = () => {
       label: item,
     });
   });
+
+  const userData = JSON.parse(window.localStorage.getItem('user'));
+  const userRole = userData.role;// 'EMPLOYEE'
+  const loggedEmployeeNumber = userData.employeeId; //user employeeId
+
+
   let userSiteIds = get(user, 'unitCodes');
   let userDefaultSiteId = '';
   if (userSiteIds && userSiteIds[0] === 'ALL') {
@@ -50,7 +56,13 @@ const AddAttendanceContainer = () => {
     attendanceAPI
       .getTodayAttendance(currentSiteId, date, month)
       .then((response) => {
-        const todayAttendance = get(response, 'data.data', []);
+        let todayAttendance = get(response, 'data.data', []);
+        if (userRole === 'EMPLOYEE') { //check role
+          todayAttendance = todayAttendance.filter(
+            (item) =>
+              item.employeeNumber === loggedEmployeeNumber
+          );
+        }
         setAttendanceData(todayAttendance);
         setModalVisible(false);
       })
