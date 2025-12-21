@@ -38,4 +38,7 @@ export const ProfileList = [
   {
     name: 'SUPER_ADMIN',
   },
+  {
+    name: 'EMPLOLYEE',
+  },
 ];
