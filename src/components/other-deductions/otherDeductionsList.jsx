@@ -590,11 +590,11 @@ function OtherDeductionsList() {
                     <b>TOTAL FINE :{formattedAmount(totalFine)}</b>
                   </div>
                 </Col>
-                <Col span={3}>
+                {/* <Col span={3}>
                   <div>
                     <b>TOTAL VIPRAS MART :{formattedAmount(totalViprasMart)}</b>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
               <Row className="g-2 mb-3">
                 <Col span={3}>

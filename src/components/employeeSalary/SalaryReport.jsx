@@ -197,12 +197,12 @@ const SalaryReport = () => {
       render: (text) => <strong>{formattedAmount(text)}</strong>,
     },
     { title: 'ID CARD', dataIndex: 'idcard', key: 'idcard', width: 150 },
-    {
-      title: 'VIPRAS MART',
-      dataIndex: 'viprasMart',
-      key: 'viprasMart',
-      width: 120,
-    },
+    // {
+    //   title: 'VIPRAS MART',
+    //   dataIndex: 'viprasMart',
+    //   key: 'viprasMart',
+    //   width: 120,
+    // },
     {
       title: 'TRANSPORT',
       dataIndex: 'transport',
