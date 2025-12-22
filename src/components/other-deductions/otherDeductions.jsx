@@ -88,10 +88,10 @@ const OtherDeductions = () => {
       transport: Number(data.transport),
       fine: Number(data.fine),
       remarks: String(data.remarks),
-      viprasMart: Number(data.viprasMart),
+      viprasMart: 0,
       attendanceBonus: Number(data.attendanceBonus),
       others: Number(data.others),
-      viprasMartInvoiceNo: String(data.viprasMartInvoiceNo),
+      viprasMartInvoiceNo: '',
       additionalIdCard: Number(data.additionalIdCard),
       createdBy: Number(userData.employeeId),
     };
@@ -369,7 +369,7 @@ const OtherDeductions = () => {
               }}
             />
           </Col>
-          <Col md={6}>
+          {/* <Col md={6}>
             <WizardInput
               label="Vipras Mart"
               name="viprasMart"
@@ -392,7 +392,7 @@ const OtherDeductions = () => {
                 ...register('viprasMartInvoiceNo'),
               }}
             />
-          </Col>
+          </Col> */}
           <Col md={6}>
             <WizardInput
               label="Attendance Bonus"
