@@ -30,7 +30,7 @@ const OtherDeductionsHeader = ({
     'Unit Code': 'unitCode',
     'Advances Deduction': 'advance',
     'Transport Deduction': 'transport',
-    'Vipras Mart': 'viprasMart',
+    // 'Vipras Mart': 'viprasMart',
     'Fine Deduction': 'fine',
     'Attendance Bonus': 'attendanceBonus',
     'Others Deduction': 'others',
