@@ -51,6 +51,9 @@ const SalaryReport = () => {
   const [selectedRowKey, setSelectedRowKey] = useState([]);
   const [searchType, setSearchType] = useState('employeeName');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const userData = JSON.parse(window.localStorage.getItem('user'));
+  const userRole = userData.role;// 'EMPLOYEE'
+  const loggedEmployeeNumber = userData.employeeId; //user employeeId
 
   // const yearOptions = [
   //   {
@@ -95,7 +98,6 @@ const SalaryReport = () => {
     const siteId = currentSiteId;
     const month = currentMonth;
     const year = currentYear;
-
     setModalVisible(true);
     let status = '';
     if (salaryPaid) {
@@ -107,29 +109,54 @@ const SalaryReport = () => {
     if (salaryHold) {
       status = 'HOLD';
     }
-
-    salaryApi
-      .getSalaryBySitecode(
-        siteId,
-        month,
-        year,
-        status,
-        searchType,
-        searchKeyword,
-      )
-      .then((response) => {
-        const responseData = get(response, 'data.data', []);
-        const mapData = responseData.map((item) => {
-          return { ...item, key: item.employeeIDNumber };
+    if (userRole === 'EMPLOYEE') {
+      salaryApi
+        .getEmpSalaryBySitecode(
+          userData.unitCodes[0],
+          month,
+          year,
+          status,
+          searchType,
+          searchKeyword,
+          loggedEmployeeNumber
+        )
+        .then((response) => {
+          const responseData = get(response, 'data.data', []);
+          const mapData = responseData.map((item) => {
+            return { ...item, key: item.employeeIDNumber };
+          });
+          setData(mapData);
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setModalVisible(false);
         });
-        setData(mapData);
-        setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setModalVisible(false);
-      });
-  };
+
+    } else {
+      salaryApi
+        .getSalaryBySitecode(
+          siteId,
+          month,
+          year,
+          status,
+          searchType,
+          searchKeyword,
+        )
+        .then((response) => {
+          const responseData = get(response, 'data.data', []);
+          const mapData = responseData.map((item) => {
+            return { ...item, key: item.employeeIDNumber };
+          });
+          setData(mapData);
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setModalVisible(false);
+        });
+    };
+  }
 
   const totalColumn = [
     {
@@ -662,7 +689,7 @@ const SalaryReport = () => {
               <Col style={style} span={23} offset={1}>
                 <Space wrap>
                   <div className="d-flex flex-wrap justify-content-center align-items-center mb-2  gap-3 px-5">
-                    <Select
+                    {userRole !== 'EMPLOYEE' && (<Select
                       showSearch
                       defaultValue={currentSiteId}
                       placeholder="Select a site"
@@ -674,7 +701,7 @@ const SalaryReport = () => {
                       style={{
                         width: 410,
                       }}
-                    />
+                    />)}
                     <DatePicker
                       format="MMM yyyy"
                       caretAs={BsCalendar2MonthFill}
@@ -682,7 +709,7 @@ const SalaryReport = () => {
                       onChange={handleChange}
                       shouldDisableDate={disableFutureDates}
                     />
-                    <div id="orders-actions">
+                    {userRole !== 'EMPLOYEE' && (<div id="orders-actions">
                       <Checkbox
                         onChange={onChangeSalaryPaid}
                         checked={salaryPaid}
@@ -690,7 +717,9 @@ const SalaryReport = () => {
                         Salary Paid
                       </Checkbox>
                     </div>
-                    <div id="orders-actions">
+                    )}
+
+                    {userRole !== 'EMPLOYEE' && (<div id="orders-actions">
                       <Checkbox
                         onChange={onChangeSalaryNotPaid}
                         checked={salaryNotPaid}
@@ -698,16 +727,18 @@ const SalaryReport = () => {
                         Salary Not Paid
                       </Checkbox>
                     </div>
-                    <div id="orders-actions">
-                      <Checkbox
-                        onChange={onChangeSalaryHold}
-                        checked={salaryHold}
-                      >
-                        Salary Hold
-                      </Checkbox>
-                    </div>
-
-                    <div>
+                    )}
+                    {userRole !== 'EMPLOYEE' && (
+                      <div id="orders-actions">
+                        <Checkbox
+                          onChange={onChangeSalaryHold}
+                          checked={salaryHold}
+                        >
+                          Salary Hold
+                        </Checkbox>
+                      </div>
+                    )}
+                    {userRole !== 'EMPLOYEE' && (<div>
                       <Form.Select
                         size="sm"
                         className="me-2 width-15"
@@ -719,7 +750,7 @@ const SalaryReport = () => {
                         <option value="accountNumber">Account Number</option>
                       </Form.Select>
                     </div>
-
+                    )}
                     <InputGroup className="input-search-width">
                       <FormControl
                         size="sm"

@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { useState, forwardRef } from 'react';
 import { Card } from 'react-bootstrap';
-import logo from 'assets/vipras_laundry_logo.jpeg';
+import siteImage from 'assets/logi-icon.png';
 // import logo from 'assets/companynamelogo.png';
 
 import PropTypes from 'prop-types';

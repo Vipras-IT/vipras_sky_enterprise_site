@@ -800,6 +800,7 @@ export const loginRole = [
   'CRM_ASSISTANT',
   'GM',
   'OPS',
+  'EMPLOYEE'
 ];
 
 export const transectionType = [
