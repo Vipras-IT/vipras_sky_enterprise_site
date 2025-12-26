@@ -94,10 +94,10 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
       icon: 'thumbs-up',
       label: 'Done',
     },
-    {
-      icon: faUsers,
-      label: ' Uniform / Kit Tab',
-    },
+    // {
+    //   icon: faUsers,
+    //   label: ' Uniform / Kit Tab',
+    // },
   ];
   const [employeeNumber, setEmployeeNumber] = useState();
   useEffect(() => {
@@ -166,7 +166,18 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
     if (step === 7 && !has(employee, 'familyDetails')) {
       data.familyDetails = [];
     }
-    const employeeMapData = { ...employee, ...data, languageKnown, siteCodeWithName };
+    // const employeeMapData = { ...employee, ...data, languageKnown, siteCodeWithName };
+    let employeeMapData;
+    if ((step === 5 || step === 6)) {
+      employeeMapData = { ...data, ...employee, languageKnown, siteCodeWithName };
+    } else if (step === 7) {
+      employeeMapData = { ...employee, ...data, languageKnown, siteCodeWithName };
+      employeeMapData.familyDetails = employee.familyDetails;
+      employeeMapData.previousEmployerDetails = employee.previousEmployerDetails;
+    } else {
+      employeeMapData = { ...employee, ...data, languageKnown, siteCodeWithName };
+
+    }
     setEmployee(employeeMapData);
     const datas = localStorage.getItem('user');
     const userData = JSON.parse(datas);
@@ -176,7 +187,7 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
         delete employeeMapData.createdOn;
         delete employeeMapData.updatedOn;
         delete employeeMapData.verifiedOn;
-      console.log('employeeMapData====================', employeeMapData)
+        console.log('employeeMapData====================', employeeMapData)
         if (get(employeeMapData, 'siteCodeWithName')) {
           employeeMapData.siteCode = get(
             employeeMapData,
@@ -301,25 +312,25 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
           <Nav className="justify-content-center" variant={variant}>
             {variant === 'pills'
               ? navItems.map((item, index) => (
-                  <NavItemPill
-                    key={item.label}
-                    index={index + 1}
-                    step={step}
-                    handleNavs={handleNavs}
-                    icon={item.icon}
-                    label={item.label}
-                  />
-                ))
+                <NavItemPill
+                  key={item.label}
+                  index={index + 1}
+                  step={step}
+                  handleNavs={handleNavs}
+                  icon={item.icon}
+                  label={item.label}
+                />
+              ))
               : navItems.map((item, index) => (
-                  <NavItem
-                    key={item.label}
-                    index={index + 1}
-                    step={step}
-                    handleNavs={handleNavs}
-                    icon={item.icon}
-                    label={item.label}
-                  />
-                ))}
+                <NavItem
+                  key={item.label}
+                  index={index + 1}
+                  step={step}
+                  handleNavs={handleNavs}
+                  icon={item.icon}
+                  label={item.label}
+                />
+              ))}
           </Nav>
         </Card.Header>
         {progressBar && <ProgressBar now={step * 25} style={{ height: 2 }} />}
@@ -384,7 +395,7 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
               empDocuments={empDocuments}
             />
           )}
-          {step === 9 && (
+          {/* {step === 9 && (
             <Sale
               register={register}
               title={title}
@@ -394,7 +405,7 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
               watch={watch}
               employeeNumber={employeeNumber}
             />
-          )}
+          )} */}
           {step === 8 && (
             <>
               <div className="text-right">
@@ -438,11 +449,15 @@ const LayoutForm = ({ variant, validation, progressBar }) => {
 
           <IconButton
             variant="primary"
-            className="ms-auto px-5"
+            // className="ms-auto px-5"
             type="submit"
             icon={isRTL ? 'chevron-left' : 'chevron-right'}
             iconAlign="right"
             transform="down-1 shrink-4"
+            className={classNames('ms-auto px-5', {
+              'd-none': step === 8,
+              ' d-flex': step < 8,
+            })}
           >
             Next
           </IconButton>

@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
-import logo from 'assets/vipras_laundry_logo_full.png';
+import logo from 'assets/sky-Logo.jpeg'
 import Avatar from 'components/common/Avatar';
 import avatarImg from 'assets/avatar.png';
 import signature from 'assets/signature.jpeg';

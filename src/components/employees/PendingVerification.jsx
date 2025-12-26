@@ -215,8 +215,8 @@ const exportColumn = [
     Header: 'Joining Date',
   },
   {
-    accessor: 'documents.fixedSalary',
-    Header: 'Fixed Salary',
+    accessor: 'totalSalary',
+    Header: 'Salary',
   },
   {
     accessor: 'documents.panCardNumber',

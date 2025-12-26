@@ -180,8 +180,18 @@ const SalaryReport = () => {
       key: 'branch',
       width: 200,
     },
-    { title: 'IFSC CODE', dataIndex: 'ifscCode', key: 'ifscCode', width: 150 },
-    { title: 'MONTH', dataIndex: 'month', key: 'month', width: 150 },
+    {
+      title: 'IFSC CODE',
+      dataIndex: 'ifscCode',
+      key: 'ifscCode',
+      width: 150
+    },
+    {
+      title: 'MONTH',
+      dataIndex: 'month',
+      key: 'month',
+      width: 150
+    },
     {
       title: 'ADVANCES',
       dataIndex: 'advances',
@@ -196,7 +206,12 @@ const SalaryReport = () => {
       width: 150,
       render: (text) => <strong>{formattedAmount(text)}</strong>,
     },
-    { title: 'ID CARD', dataIndex: 'idcard', key: 'idcard', width: 150 },
+    {
+      title: 'ID CARD',
+      dataIndex: 'idcard',
+      key: 'idcard',
+      width: 150
+    },
     // {
     //   title: 'VIPRAS MART',
     //   dataIndex: 'viprasMart',
@@ -209,43 +224,105 @@ const SalaryReport = () => {
       key: 'transport',
       width: 130,
     },
-    { title: 'FINE', dataIndex: 'fine', key: 'fine', width: 130 },
-    { title: 'OTHERS', dataIndex: 'others', key: 'others', width: 130 },
+    {
+      title: 'FINE',
+      dataIndex: 'fine',
+      key: 'fine',
+      width: 130
+    },
+    {
+      title: 'OTHERS',
+      dataIndex: 'others',
+      key: 'others',
+      width: 130
+    },
     {
       title: 'ATTENDANCE BONUS',
       dataIndex: 'attendanceBonus',
       key: 'attendanceBonus',
       width: 150,
     },
+    // {
+    //   title: 'PF %',
+    //   dataIndex: 'pfPercentage',
+    //   key: 'pfPercentage',
+    //   width: 100,
+    // },
+    // {
+    //   title: 'ESI %',
+    //   dataIndex: 'esiPercentage',
+    //   key: 'esiPercentage',
+    //   width: 100,
+    // },
+    // {
+    //   title: 'PF AMONT',
+    //   dataIndex: 'pfAmount',
+    //   key: 'pfAmount',
+    //   width: 120,
+    // },
+    // {
+    //   title: 'ESI AMOUNT',
+    //   dataIndex: 'esiAmount',
+    //   key: 'esiAmount',
+    //   width: 120,
+    // },
+    // {
+    //   title: 'FIXED SALARY',
+    //   dataIndex: 'fixedSalary',
+    //   key: 'fixedSalary',
+    //   width: 130,
+    //   render: (text) => <strong>{formattedAmount(text)}</strong>,
+    // },
     {
-      title: 'PF %',
-      dataIndex: 'pfPercentage',
-      key: 'pfPercentage',
-      width: 100,
+      title: 'Employee "PF" Contribution (12%)',
+      dataIndex: 'employeePf',
+      key: 'employeePf',
+      width: 120,
     },
     {
-      title: 'ESI %',
-      dataIndex: 'esiPercentage',
-      key: 'esiPercentage',
-      width: 100,
+      title: 'Employee "ESI" Contribution (0.75%)',
+      dataIndex: 'employeeEsi',
+      key: 'employeeEsi',
+      width: 120,
     },
     {
-      title: 'PF AMONT',
+      title: 'PF Amount (13%)',
       dataIndex: 'pfAmount',
       key: 'pfAmount',
       width: 120,
     },
     {
-      title: 'ESI AMOUNT',
-      dataIndex: 'esiAmount',
-      key: 'esiAmount',
+      title: 'Employer "ESI" Contribution (3.25%)',
+      dataIndex: 'employerEsi',
+      key: 'employerEsi',
       width: 120,
     },
     {
-      title: 'FIXED SALARY',
-      dataIndex: 'fixedSalary',
-      key: 'fixedSalary',
+      title: 'BASIC SALARY',
+      dataIndex: 'basicSalary',
+      key: 'basicSalary',
       width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'DA',
+      dataIndex: 'da',
+      key: 'da',
+      width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'HRA',
+      dataIndex: 'hra',
+      key: 'hra',
+      width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'OTHER ALLOWANCE',
+      dataIndex: 'otherAllowance',
+      key: 'otherAllowance',
+      width: 135,
       render: (text) => <strong>{formattedAmount(text)}</strong>,
     },
     {
@@ -280,12 +357,12 @@ const SalaryReport = () => {
         </span>
       ),
     },
-    {
-      title: 'BULK DUTY',
-      dataIndex: 'bulkDuty',
-      key: 'bulkDuty',
-      width: 120,
-    },
+    // {
+    //   title: 'BULK DUTY',
+    //   dataIndex: 'bulkDuty',
+    //   key: 'bulkDuty',
+    //   width: 120,
+    // },
     {
       title: 'TOTAL DUTIES',
       dataIndex: 'totalDuties',
@@ -541,7 +618,7 @@ const SalaryReport = () => {
   const totalAdvances = calculateTotalAdvances('advances');
   const totalEmi = calculateTotalAdvances('emi');
   const totalIdCard = calculateTotalAdvances('idcard');
-  const totalViprasMart = calculateTotalAdvances('viprasMart');
+  // const totalViprasMart = calculateTotalAdvances('viprasMart');
   const totalTransport = calculateTotalAdvances('transport');
   const totalFine = calculateTotalAdvances('fine');
   const totalOthers = calculateTotalAdvances('others');
@@ -812,10 +889,10 @@ const SalaryReport = () => {
             &nbsp;&nbsp; TOTAL EMI / UNIFORM : {formattedAmount(totalEmi)} |
           </b>
           <b>&nbsp;&nbsp; TOTAL ID CARD : {totalIdCard} |</b>
-          <b>
+          {/* <b>
             &nbsp;&nbsp; TOTAL VIPRA SMART : {formattedAmount(totalViprasMart)}{' '}
             |
-          </b>
+          </b> */}
           <b>
             &nbsp;&nbsp; TOTAL TRANSPORT : {formattedAmount(totalTransport)} |
           </b>
