@@ -43,6 +43,50 @@ const getSalaryBySitecode = async (
   }
 };
 
+const getEmpSalaryBySitecode = async (
+  siteId,
+  month,
+  year,
+  status = '',
+  searchType = '',
+  searchKeyword = '',
+  empId = ''
+) => {
+  // Base URL construction
+  let url = `/api/v1/salary/emp/${empId}/${siteId}/${month}/${year}`;
+
+  // Initialize the filter object
+  const filter = {};
+
+  // Add status filter if available
+  if (status) {
+    filter.status = status;
+  }
+
+  // Add name and nameBydata filters if available
+  if (searchType && searchKeyword) {
+    filter[searchType] = searchKeyword;
+  }
+
+  // Append filter to the URL if any filter is applied
+  if (Object.keys(filter).length > 0) {
+    const serializedFilter = JSON.stringify(filter);
+    url += `?filter=${serializedFilter}`;
+  }
+
+  try {
+    const response = await axios.get(url);
+
+    return response;
+  } catch (error) {
+    throw new Error(
+      `API error: ${
+        error?.response?.data?.message || error?.message || 'Unknown error'
+      }`,
+    );
+  }
+};
+
 const getClubedSalaryBySitecode = async (month, year) => {
   const filter = { isMultiSite: true };
   const serializedData = JSON.stringify(filter);
@@ -134,4 +178,5 @@ export default {
   updateSalaryReport,
   getClubedSalaryBySitecode,
   generateSitePLReportBySiteId,
+  getEmpSalaryBySitecode
 };
