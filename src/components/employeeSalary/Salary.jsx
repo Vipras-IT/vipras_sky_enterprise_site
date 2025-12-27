@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import logoInvoice from 'assets/vipras_logonew.svg';
+import skyExlogo from 'assets/Sky-Logo.jpeg'
 import IconButton from 'components/common/IconButton';
 import { useAuth } from 'hooks/useAuth';
 import { isEmpty, get } from 'lodash';
@@ -13,16 +14,48 @@ import salaryApi from 'api/salary';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useReactToPrint } from 'react-to-print';
+import { BsCalendar2MonthFill } from 'react-icons/bs';
+import { disableFutureDates } from 'helpers/utils';
+import { DatePicker } from 'rsuite';
+// import { salaryConstant } from 'helpers/appConstants'
 
 const Salary = () => {
   const { user } = useAuth();
   const params = useParams();
   const searchParams = new URLSearchParams(location.search);
-  const month = searchParams.get('month');
-  const year = searchParams.get('year');
-  const [employeeDetails, setEmployeeDetails] = useState();
-  const [employeeSalary, setEmployeeSalary] = useState();
+  // const month = 10;
+  // const year = 2025;
+  const todayDate = new Date();
+
+  // State management
+  const [dateValue, setDateValue] = useState(todayDate);
+  const [month, setCurrentMonth] = useState(todayDate.getMonth() + 1);
+  const [year, setCurrentYear] = useState(todayDate.getFullYear());
+  const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [employeeSalary, setEmployeeSalary] = useState(null);
   const [tableData, setTableData] = useState([]);
+  // const [siteDetails, setSiteDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Utility: Convert number to words
+  const numberToWords = (num) => {
+    const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    const convertToWords = (n) => {
+      if (n < 20) return ones[n];
+      if (n < 100) return `${tens[Math.floor(n / 10)]} ${ones[n % 10]}`.trim();
+      if (n < 1000) return `${ones[Math.floor(n / 100)]} Hundred ${convertToWords(n % 100)}`.trim();
+      if (n < 100000) return `${convertToWords(Math.floor(n / 1000))} Thousand ${convertToWords(n % 1000)}`.trim();
+      if (n < 10000000) return `${convertToWords(Math.floor(n / 100000))} Lakh ${convertToWords(n % 100000)}`.trim();
+      return `${convertToWords(Math.floor(n / 10000000))} Crore ${convertToWords(n % 10000000)}`.trim();
+    };
+
+    return `${convertToWords(num)} Only`;
+  };
+
+  // PDF Download handler
   const downloadPDF = async () => {
     try {
       const contentElement = document.getElementById('pdf-content');
@@ -42,7 +75,7 @@ const Salary = () => {
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       const currentDate = new Date();
       const formattedDate = currentDate.toISOString().slice(0, 10);
-      const filename = `Salary-${formattedDate}.pdf`;
+      const filename = `Salary-${formattedDate}-${employeeDetails?.employeeNumber}.pdf`;
       pdf.save(filename);
     } catch (error) {
       console.error('Error capturing content:', error);
@@ -51,6 +84,13 @@ const Salary = () => {
 
   const Print = () => {
     window.print();
+  };
+  const handleChange = (date) => {
+    setDateValue(date);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    setCurrentMonth(month);
+    setCurrentYear(year);
   };
   const contentRef = useRef(null);
   const handlePrint = useReactToPrint({ contentRef });
@@ -93,11 +133,22 @@ const Salary = () => {
   const formattedDate = `${formattedMonth} - ${year}`;
   return (
     <>
+      {/* Header Card */}
       <Card className="mb-3">
         <Card.Body>
           <Row className="justify-content-between align-items-center">
             <Col md>
+              {/* <h5 className="mb-2 mb-md-0">{salaryConstant.SALARY_SLIP}</h5> */}
               <h5 className="mb-2 mb-md-0">Salary</h5>
+            </Col>
+            <Col>
+              <DatePicker
+                format="MMM yyyy"
+                caretAs={BsCalendar2MonthFill}
+                value={dateValue}
+                onChange={handleChange}
+                shouldDisableDate={disableFutureDates}
+              />
             </Col>
             <Col xs="auto">
               <IconButton
@@ -107,6 +158,7 @@ const Salary = () => {
                 className="me-1 mb-2 mb-sm-0"
                 iconClassName="me-1"
                 onClick={downloadPDF}
+                disabled={isLoading || !employeeSalary}
               >
                 Download (.pdf)
               </IconButton>
@@ -117,6 +169,7 @@ const Salary = () => {
                 iconClassName="me-1"
                 className="me-1 mb-2 mb-sm-0"
                 onClick={handlePrint}
+                disabled={isLoading || !employeeSalary}
               >
                 Print
               </IconButton>
@@ -124,223 +177,269 @@ const Salary = () => {
           </Row>
         </Card.Body>
       </Card>
-      <div id="pdf-content" className="print-page" ref={contentRef}>
-        <Card className="mb-3 exclude-from-pdf print-subpage">
-          <Card.Body>
-            <Row className="text-center mb-3">
-              <Col sm={6} className="text-sm-start">
-                <img src={logoInvoice} alt="invoice" width={200} height={50} />
-              </Col>
-              <Col className="text-sm-end mt-3 mt-sm-0">
-                <h3 className="mb-1 salary-text">{formattedDate}</h3>
-                <p className="salary-text mb-0">
-                  Vipras Facility Management Solutions Pvt Ltd{' '}
-                </p>
-                <p className="salary-text mb-0">
-                  No-495A, Village High Road,
-                  <br /> Sholinganallur, Chennai - 600119
-                </p>
-              </Col>
-              <Col xs={12}>
-                <hr />
-              </Col>
-            </Row>
 
-            <Row className="align-items-center">
-              <Col>
-                {employeeDetails ? (
-                  <div key={employeeDetails.employeeId}>
-                    <p className="salary-text mb-1 fs-1 fw-semibold ">
-                      {employeeDetails.employeeName}:{' '}
-                      <span className="ms-1">
-                        {employeeDetails.employeeNumber}
-                      </span>{' '}
-                    </p>
-                    {/* <h6 className="salary-text">
-                      {employeeDetails.employeeNumber}
-                    </h6> */}
-                    <h6 className="salary-text mb-2">{employeeDetails.role}</h6>
-                    <p className="salary-text mb-0">
-                      {employeeDetails.localAddress?.address}
-                      <br />
-                      {employeeDetails.localAddress?.district},
-                      <span className="ms-1">
-                        {employeeDetails.localAddress?.state}
-                      </span>
-                    </p>
-                    <p className="salary-text">
-                      {employeeDetails.localAddress?.contactNumber}
-                    </p>
-                  </div>
-                ) : (
-                  <p>No employee details available.</p>
-                )}
-              </Col>
+      {/* Salary Slip Content */}
 
-              <Col sm="auto" className="ms-auto">
-                {employeeSalary ? (
-                  <div className="table-responsive">
-                    <Table borderless size="sm" className="salary-text">
-                      <tbody>
-                        <tr>
-                          <th className="text-sm-end">Site:</th>
-                          <td>
-                            {employeeSalary.unitCode}-{employeeSalary.UnitName}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="text-sm-end">Account No:</th>
-                          <td>{employeeSalary.accountNumber}</td>
-                        </tr>
-                        <tr>
-                          <th className="text-sm-end">Bank Name:</th>
-                          <td>{employeeSalary.bankName}</td>
-                        </tr>
-                        <tr>
-                          <th className="text-sm-end">IFSC Code:</th>
-                          <td>{employeeSalary.ifscCode}</td>
-                        </tr>
-                        <tr>
-                          <th className="text-sm-end">ESI Number:</th>
-                          <td>{employeeSalary.esiNumber}</td>
-                        </tr>
-                        <tr>
-                          <th className="text-sm-end">PF Number:</th>
-                          <td>{employeeSalary.uanNumber}</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                ) : (
-                  <p>No employee details available.</p>
-                )}
-              </Col>
-            </Row>
+      <div
+        id="pdf-content"
+        ref={contentRef}
+        className="print-page container w-100 h-100"
+      >
 
+        <Card className="print-page container w-100 h-100" >{/*whole container*/}
+
+          {/* Header Section */}
+          <Card.Body className="container table border border-bottom-0 border-dark border-3 rounded m-0 w-100 h-50" >{/*Header container*/}
             <Row>
-              <Col xs={12}>
-                <hr />
-              </Col>
-              <div className="d-flex">
-                <Col>
-                  {employeeSalary ? (
-                    <h6 className="attendance-text">
-                      Total working days: {employeeSalary.totalWorkingDays}
-                      <span className="">
-                        Present: {employeeSalary.present}
-                      </span>
-                      <span className="">Absent: {employeeSalary.absent}</span>
-                      <span className="">
-                        Week Off: {employeeSalary.weekOff}
-                      </span>
-                      <span className="">
-                        Duty: {employeeSalary.numberofDuty}
-                      </span>
-                      <span className="">
-                        Bulk Duty: {employeeSalary.bulkDuty}
-                      </span>
-                      <span className="">
-                        Total Duty: {employeeSalary.totalDuties}
-                      </span>
-                    </h6>
-                  ) : (
-                    <p>No employee details available.</p>
-                  )}
-                </Col>
-
-                {employeeSalary && (
-                  <Row className="justify-content-end">
-                    <Col xs="auto">
-                      <Table
-                        borderless
-                        size="sm"
-                        className="salary-text text-end"
-                      >
-                        <tbody>
-                          <tr className="d-flex align-items-center justify-content-end">
-                            <th className="text-900 mw-150">Gross Salary:</th>
-                            <td className="fw-semi-bold mw-75">
-                              {employeeSalary.grossSalary}
-                            </td>
-                          </tr>
-                          <tr className="d-flex align-items-center justify-content-end">
-                            <th className="text-900 mw-150">
-                              Total Earnings (+):
-                            </th>
-                            <td className="fw-semi-bold mw-75">
-                              {employeeSalary.attendanceBonus}
-                            </td>
-                          </tr>
-                          <tr className="d-flex align-items-center justify-content-end">
-                            <th className="text-900 mw-150">
-                              Total Deductions (-):
-                            </th>
-                            <td className="fw-semi-bold mw-75">
-                              {employeeSalary.totalDeduction}
-                            </td>
-                          </tr>
-                          <tr className="border-top d-flex align-items-center justify-content-end">
-                            <th className="text-900 mw-150">Total:</th>
-                            <td className="fw-semi-bold mw-75">
-                              {employeeSalary.grossSalary +
-                                employeeSalary.attendanceBonus -
-                                employeeSalary.totalDeduction}
-                            </td>
-                          </tr>
-                          <tr className="border-top border-top-2 fw-bolder text-900 d-flex align-items-center justify-content-end">
-                            <th className="mw-150">Net Salary:</th>
-                            <td className="mw-75">
-                              {employeeSalary.netSalary}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Col>
-                  </Row>
-                )}
-              </div>
+              <p className='text-center  text-white bg-dark w-100'><strong>Rule 78(1)(b) of TamilNadu Contract Labour (Regulation & Abolition) Rules, 1975 - Form XXVIII</strong></p>
             </Row>
-            {tableData.length > 0 && (
-              <div className="mt-4 salary-text">
-                <SimpleBarReact>
-                  <Table striped className="border-bottom">
-                    <thead className="light">
-                      <tr className="bg-primary text-white dark__bg-1000">
-                        <th className="border-0">Description</th>
-                        <th className="border-0 text-end">Debit</th>
-                        <th className="border-0 text-end">Credit</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData.map((t, k) => (
-                        // <th className="border-0 text-center" key={k} value={t[0]}>
-                        //   {t[1]}
-                        // </th>
-                        <tr key={k}>
-                          <td className="align-middle">
-                            <p className="mb-0 salary-text">{t.description}</p>
-                          </td>
-                          <td className="align-middle text-end salary-text">
-                            {t.debit}
-                          </td>
-                          <td className="align-middle text-end salary-text">
-                            {t.credit}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </SimpleBarReact>
-              </div>
-            )}
+            <Row className="text-center mb-1 ">
+
+              {/* <img src={skyExlogo} alt="invoice"  className="company-logo" width={0} height={100} />logo */}
+              <img
+                src={skyExlogo}
+                alt="invoice"
+                className="img-fluid mx-auto d-block w-25 h-25"
+              />
+              <p className="salary-text mb-0 fs-2 text-center">
+                Sky Express{' '}
+              </p>
+              <p className="salary-text mb-0">Door No.15, Pudukkottai Road, Airport Trichy,
+                <br />Thirunagar, Thiruchirappalli - 620007
+              </p>
+              <p className="salary-text mb-0">{formattedDate}</p>
+              {/* <Col className='mt-1' xs={12}>
+                <hr />
+              </Col> */}
+            </Row>
+
+            {/* <p className="text-center fs-2">(Pay Slip For The Month of {formattedDate})</p> */}
+
           </Card.Body>
-          <Card.Footer className="bg-light">
-            <p className="fs--1 mb-0"></p>
-          </Card.Footer>
+
+          {/* Employee Details Section */}
+          <Row className="container table border border-bottom-0 border-dark border-3 rounded m-0">{/*information-Mid container */}
+            <div className="container m-1">
+              {employeeDetails ? (
+                <>
+                  <EmployeeDetailRow
+                    label1="Emp ID"
+                    value1={employeeDetails.employeeNumber}
+                    label2="Company"
+                    value2={employeeDetails.siteName}
+                  />
+                  <EmployeeDetailRow
+                    label1="EMP NAME"
+                    value1={employeeDetails.employeeName}
+                    label2="UAN NO"
+                    value2={employeeDetails.documents?.pfNumber}
+                  />
+                  <EmployeeDetailRow
+                    label1="BANK NAME"
+                    value1={employeeDetails.bankDetails?.bankName}
+                    label2="ESI NO"
+                    value2={employeeDetails.documents?.esiNumber}
+                  />
+                  <EmployeeDetailRow
+                    label1="ACCOUNT NUMBER"
+                    value1={employeeDetails.bankDetails?.accountNumber}
+                    label2="BRANCH"
+                    value2={employeeDetails.bankDetails?.branch}
+
+                  />
+                  <EmployeeDetailRow
+                    label1="IFSCODE"
+                    value1={employeeDetails.bankDetails?.ifscode}
+                  // label2=""
+                  // value2=''
+                  />
+                </>
+              ) : (
+                <p>No employee details available.</p>
+              )}
+            </div>
+          </Row>
+
+          {/* Salary Table */}
+          {employeeSalary ? (
+            <SalaryTable
+              salary={employeeSalary}
+              numberToWords={numberToWords}
+            />
+          ) : (
+            <p className="text-center p-4">No salary details available.</p>
+          )}
+
+          {/* Footer */}
+          <div className="text-center mt-3 mb-5 p-2 border border-dark">
+            <strong>(COMPUTER GENERATED PAY SLIP — NO SIGNATURE REQUIRED)</strong>
+          </div>
         </Card>
       </div>
+      <style>{`
+  @media print {
+    .print-page {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    .container {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+    
+`}
+      </style>
     </>
+
   );
 };
+
+// Employee Detail Row Component
+const EmployeeDetailRow = ({ label1, value1, label2, value2 }) => (
+  <div className="row p-1">
+    <div className="col-3 fw-bold">{label1}</div>
+    <div className="col-3">{value1 || '-'}</div>
+    <div className="col-3 fw-bold">{label2}</div>
+    <div className="col-3">{value2 || '-'}</div>
+  </div>
+);
+
+// Salary Table Component
+const SalaryTable = ({ salary, numberToWords }) => (
+  <table className="table table-bordered border-0 w-100 border-dark border-3 text-center">{/*table-mid container*/}
+    <thead className="table-dark">
+      <tr>
+        <th colSpan="3">EARNING</th>
+        <th colSpan="4">DEDUCTION</th>
+      </tr>
+    </thead>
+    <tbody>
+      <SalaryRow
+        earning={<b>NO OF DUTY</b>}
+        earningAmount={salary.totalWorkingDays}
+        earningTotal={salary.totalDuties}
+        deduction1={"PF (12%)"}
+        deductionAmount1={salary.employeePf > 0 ? salary.employeePf : "0"}
+        deduction2="ADVANCE"
+        deductionAmount2={salary.advances > 0 ? salary.advances : " - "}
+      />
+      <SalaryRow
+        earning={<b>BASIC SALARY</b>}
+        earningAmount={salary.basicSalary}
+        earningTotal={salary.basicSalaryValue}
+        deduction1={"ESI (0.75%)"}
+        deductionAmount1={salary.employeeEsi > 0 ? salary.employeeEsi : "0"}
+        deduction2="Transport"
+        deductionAmount2={salary.transport > 0 ? salary.transport : " - "}
+      />
+      <SalaryRow
+        earning={<b>DA</b>}
+        earningAmount={salary.da}
+        earningTotal={salary.daValue}
+        deduction1=""
+        deductionAmount1=""
+        deduction2="FINE"
+        deductionAmount2={salary.fine > 0 ? salary.fine : " - "}
+      />
+      <SalaryRow
+        earning={<b>HRA</b>}
+        earningAmount={salary.hra}
+        earningTotal={salary.hraValue}
+        deduction1=""
+        deductionAmount1=""
+        deduction2="EMI"
+        deductionAmount2={salary.emi > 0 ? salary.emi : " - "}
+      />
+      <SalaryRow
+        earning={<b>Other Allowance</b>}
+        earningAmount={salary.otherAllowance}
+        earningTotal={salary.otherAllowanceValue}
+        deduction1=""
+        deductionAmount1=""
+        deduction2="ID CARD"
+        deductionAmount2={salary.idcard > 0 ? salary.idcard : " - "}
+      />
+
+      <tr className="border-0">
+        <th className="text-start border-start border-end bg-dark text-white border-dark">TOTAL SALARY </th>
+        <th className="text-end border-end border-dark bg-dark text-white">{salary.totalsalary}</th>
+        <td className="text-end border-end border-dark bg-dark text-white">{salary.totalDailyEarnings}</td>
+        <td className="text-start border-end border-dark"></td>
+        <td className="text-end border-end border-dark"></td>
+        <td className="text-start border-end border-0 border-dark">OTHERS </td>
+        <td className="text-end border-0 border-end border-dark">{salary.others > 0 ? salary.others : " - "} </td>
+      </tr>
+      <SalaryRow
+        earning="ATTENDANCE BONUS"
+        earningAmount={salary.attendanceBonus}
+        earningTotal={salary.attendanceBonus}
+      />
+      <SalaryRow
+        earning=""
+        earningAmount=""
+        earningTotal=""
+      />
+      <tr className="border-2 border-top-0 border-end border-start border-dark">
+        <td className="text-start border-top-0 border border-end border-start border-dark"> </td>
+        <td className="text-end border-end border-start border-dark"> </td>
+        <td className="text-end border-end border-start border-dark"> </td>
+        <td className="text-start border-0 border-start bg-dark text-white border-end border-dark">TOTAL ESI/PF </td>
+        <td className="text-end border-0 border-end border-dark bg-dark text-white">{salary.totalEsiPf}</td>
+        <td className="text-start border-start border-end border-dark bg-dark text-white">
+          TOTAL
+        </td>
+        <td className="text-end border-end border-dark bg-dark text-white">{salary.deduction}</td>
+      </tr>
+
+
+
+      <tr className="border-2 border border-end border-dark">
+        <td colSpan="2" className="bg-light-gray border-end border-dark"><b>GROSS</b></td>
+        <td className="text-end border-end border-dark">{salary.grossAB}</td>
+        <td colSpan="2" className="bg-light-gray border-dark border-end"><b>TOTAL DEDUCTION</b></td>
+        <td colSpan="2" className="text-end border-end border-dark bg-light-gray">
+          <strong><b>{salary.totalDeduction}</b></strong>
+        </td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td colSpan="4" className="text-center fs-2 border-bottom border-start border-dark text-dark">
+          <strong>RS. {numberToWords(salary.netSalary)}</strong>
+        </td>
+        <td className="bg-light border-start border-bottom border-dark fs-2">
+          <strong><b>NET PAY</b></strong>
+        </td>
+        <td className="text-end border-start border-bottom border-end border-dark bg-light fs-3" colSpan="2">
+          <strong>{salary.netSalary}</strong>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+);
+
+// Salary Row Component
+const SalaryRow = ({
+  earning,
+  earningAmount,
+  earningTotal,
+  deduction1,
+  deductionAmount1,
+  deduction2,
+  deductionAmount2,
+}) => (
+  <tr className="border-0">
+    <td className="text-start border-end border-start border-dark">{earning}</td>
+    <td className="text-end border-end border-dark">{earningAmount}</td>
+    <td className="text-end border-end border-dark">{earningTotal}</td>
+    <td className="text-start border-end border-dark">{deduction1 || ''}</td>
+    <td className="text-end border-start border-end border-dark">{deductionAmount1 || ''}</td>
+    <td className="text-start border-end border-dark">{deduction2 || ''}</td>
+    <td className="text-end border-end border-dark">{deductionAmount2 || ''}</td>
+  </tr>
+);
 
 export default Salary;

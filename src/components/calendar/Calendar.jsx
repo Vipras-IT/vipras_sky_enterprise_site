@@ -109,7 +109,7 @@ const Calendar = () => {
                   <th scope="col">Absent</th>
                   <th scope="col">Week Off</th>
                   <th scope="col">No of Duty</th>
-                  <th scope="col">Bulk duty</th>
+                  {/* <th scope="col">Bulk duty</th> */}
                   <th scope="col">Total Duty</th>
                 </tr>
               </thead>

@@ -80,13 +80,13 @@ const columns = [
       <>{formattedAmount(get(rowData, 'row.values.fine', ''))}</>
     ),
   },
-  {
-    accessor: 'viprasMart',
-    Header: 'ViprasMart',
-    Cell: (rowData) => (
-      <>{formattedAmount(get(rowData, 'row.values.viprasMart', ''))}</>
-    ),
-  },
+  // {
+  //   accessor: 'viprasMart',
+  //   Header: 'ViprasMart',
+  //   Cell: (rowData) => (
+  //     <>{formattedAmount(get(rowData, 'row.values.viprasMart', ''))}</>
+  //   ),
+  // },
   {
     accessor: 'attendanceBonus',
     Header: 'Attendance Bonus',
@@ -184,10 +184,10 @@ const exportColumn = [
     accessor: 'fine',
     Header: 'Fine',
   },
-  {
-    accessor: 'viprasMart',
-    Header: 'ViprasMart',
-  },
+  // {
+  //   accessor: 'viprasMart',
+  //   Header: 'ViprasMart',
+  // },
   {
     accessor: 'attendanceBonus',
     Header: 'Attendance Bonus',

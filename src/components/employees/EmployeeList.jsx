@@ -54,8 +54,8 @@ const columns = [
     Header: 'AC Number',
   },
   {
-    accessor: 'documents.fixedSalary',
-    Header: 'Fixed Salary',
+    accessor: 'totalSalary',
+    Header: 'Salary',
     Cell: (rowData) => {
       const data = get(rowData, 'value', '');
       const finalData = formattedAmount(Number(data));
@@ -268,8 +268,8 @@ const exportColumn = [
     Header: 'Department',
   },
   {
-    accessor: 'documents.fixedSalary',
-    Header: 'Fixed Salary',
+    accessor: 'totalSalary',
+    Header: 'Salary',
   },
   {
     accessor: 'documents.panCardNumber',
@@ -474,7 +474,7 @@ function EmployeesTable() {
   const totalAdvances =
     data?.results?.reduce(
       (accumulator, item) =>
-        accumulator + Number(item.documents?.fixedSalary || 0),
+        accumulator + Number(item.totalSalary || 0),
       0,
     ) || 0;
 
@@ -617,7 +617,7 @@ function EmployeesTable() {
                 </div>
                 <div>
                   {' '}
-                  <b>TOTAL FIXED SALARY : {formattedAmount(totalAdvances)}</b>
+                  <b>TOTAL SALARY : {formattedAmount(totalAdvances)}</b>
                 </div>
                 <div>
                   <Form.Select

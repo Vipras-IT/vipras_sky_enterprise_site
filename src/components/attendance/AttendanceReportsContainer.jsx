@@ -218,12 +218,12 @@ const AttendanceReportsContainer = () => {
       key: 'nationalHoliday',
       width: 100,
     },
-    {
-      title: 'Bulk Duty',
-      dataIndex: 'bulkDuty',
-      key: 'bulkDuty',
-      width: 100,
-    },
+    // {
+    //   title: 'Bulk Duty',
+    //   dataIndex: 'bulkDuty',
+    //   key: 'bulkDuty',
+    //   width: 100,
+    // },
     {
       title: 'Total',
       dataIndex: 'total',

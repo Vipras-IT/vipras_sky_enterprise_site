@@ -4,7 +4,7 @@ import { Card, Col, Row, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 // import house from 'assets/header-logo.png';
 // import house from 'assets/vipras_laundry_logo_full.png';
-import house from 'assets/Vipras+-header-logo.jpeg';
+import house from 'assets/Sky-Logo.jpeg'
 
 const AuthSplitLayout = ({ children, bgProps }) => {
   return (
@@ -27,8 +27,8 @@ const AuthSplitLayout = ({ children, bgProps }) => {
                         src={house}
                         alt="Header-Logo"
                         className="bg-transparent"
-                        height={160}
-                        width={250}
+                        height={90}
+                        width={200}
                       />
                     </div>
                   </Link>

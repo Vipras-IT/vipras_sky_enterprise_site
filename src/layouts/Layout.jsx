@@ -79,6 +79,7 @@ import ImprestHolderList from 'components/imprest-holder/ImprestHolderList';
 import ImpresHolderProfile from 'components/imprest-holder/ImpresHolderProfile';
 import YourManualAttendanceReport from 'components/imprest-holder/YourManualAttendanceReport';
 import YourAttendanceReports from 'components/imprest-holder/YourAttendanceReports';
+import YourPayload from '../components/employeeSalary/YourPayload';
 import Salary from 'components/employeeSalary/Salary';
 import SalaryReport from 'components/employeeSalary/SalaryReport';
 import Invoice from 'components/employeeSalary/Invoice';
@@ -374,7 +375,14 @@ const Layout = () => {
                 </QueryClientProvider>
               }
             />
-
+            <Route
+              path="/your-payroll"
+              element={
+                <QueryClientProvider client={queryClient}>
+                  <YourPayload />
+                </QueryClientProvider>
+              }
+            />
             <Route
               path="/sitecreation/:siteId"
               element={<SiteCreation validation={true} />}
@@ -587,12 +595,12 @@ const Layout = () => {
               path="/sub-contaracter"
               element={<SubcontractorRepords validation={true} />}
             />
-             <Route
+            <Route
               path="/sub-contractor-monthly"
               element={<SubcontractorMonthlyReports validation={true} />}
             />
             {/* //0452 have to remove  start */}
-             <Route
+            <Route
               path="/sub-contaracter-report"
               element={<SubcontractorRepordsTemp validation={true} />}
             />
@@ -711,7 +719,7 @@ const Layout = () => {
                 </QueryClientProvider>
               }
             />
-               <Route
+            <Route
               path="/branchlist"
               element={
                 <QueryClientProvider client={queryClient}>
