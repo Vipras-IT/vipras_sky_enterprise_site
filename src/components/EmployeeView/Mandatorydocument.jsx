@@ -3,6 +3,13 @@
 import { get, isEmpty } from 'lodash';
 
 const Mandatorydocument = ({ employeeData }) => {
+
+  const basic = Number(get(employeeData, 'documents.basicSalary', 0));
+  const da = Number(get(employeeData, 'documents.da', 0));
+  const hra = Number(get(employeeData, 'documents.hra', 0));
+  const otherAllowance = Number(get(employeeData, 'documents.otherAllowance', 0));
+
+  const totalSalary = basic + da + hra + otherAllowance;
   return (
     <div className="mt-3 card LineSpace ">
       <div className="bg-danger card-header notification border-x-0 border-bottom-0 border-300 rounded-0">
@@ -64,11 +71,10 @@ const Mandatorydocument = ({ employeeData }) => {
             </label>
           </div>
           <div className="h-100 col-md-4">
-            <h6 className="fs-0 mb-0">Fixed Salary </h6>
+            <h6 className="fs-0 mb-0">Salary </h6>
             <label title="Fname">
-              {isEmpty(get(employeeData, 'documents.appraisalAmount', ''))
-                ? get(employeeData, 'documents.fixedSalary', '')
-                : get(employeeData, 'documents.appraisalAmount', '')}
+              {totalSalary}
+              {/* {get(employeeData, 'totalSalary', '')} */}
             </label>
           </div>
         </div>

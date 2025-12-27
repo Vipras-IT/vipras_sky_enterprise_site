@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { useState, forwardRef } from 'react';
 import { Card } from 'react-bootstrap';
-import siteImage from 'assets/logi-icon.png';
+import logo from 'assets/sky-Logo.jpeg'
 // import logo from 'assets/companynamelogo.png';
 
 import PropTypes from 'prop-types';
@@ -47,9 +47,9 @@ const TermsForms = forwardRef((props, ref) => {
                   Company Address
                 </Card.Title>
                 <Card.Text className="back-text-p1">
-                  Vipras Laundry Services Pvt Ltd,
-                  <br /> 94/1, Gramini Street,
-                  <br /> Pattikulam, <br /> Chennai - 603104
+                  Sky Express,
+                  <br />Door No.15, Pudukkottai Road, Airport Trichy,
+                  <br /> Thirunagar, <br /> Thiruchirappalli - 620007
                 </Card.Text>
                 <Card.Text className="back-text-p2">
                   This card is non-transferable and must be surrender on
@@ -58,7 +58,7 @@ const TermsForms = forwardRef((props, ref) => {
               </Card.ImgOverlay>
             </Card.Body>
             <Card.Footer className="back-text-p2">
-              Contact Number: 7823911187
+              Contact Number: 9940021979
             </Card.Footer>
           </Card>
         </div>
