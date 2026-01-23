@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { useState, forwardRef } from 'react';
 import { Card } from 'react-bootstrap';
-import logo from 'assets/sky-Logo.jpeg'
+import logo from 'assets/Sky-Logo.jpeg'
 // import logo from 'assets/companynamelogo.png';
 
 import PropTypes from 'prop-types';
