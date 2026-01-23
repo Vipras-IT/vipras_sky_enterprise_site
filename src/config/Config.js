@@ -10,7 +10,7 @@ export const settings = {
   currency: '$',
   isNavbarVerticalCollapsed: false, // toggle vertical navbar collapse
   navbarStyle: 'card',
-  apiUrl: 'http://skyexapi.viprasplus.com/',
+  apiUrl: 'https://skyexapi.viprasplus.com',
 
   documentApiUrl: 'https://api.viprasplus.com',
 };
