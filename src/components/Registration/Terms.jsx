@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
-import logo from 'assets/sky-Logo.jpeg'
+import logo from 'assets/Sky-Logo.jpeg'
 import Avatar from 'components/common/Avatar';
 import avatarImg from 'assets/avatar.png';
 import signature from 'assets/signature.jpeg';
