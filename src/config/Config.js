@@ -10,11 +10,9 @@ export const settings = {
   currency: '$',
   isNavbarVerticalCollapsed: false, // toggle vertical navbar collapse
   navbarStyle: 'card',
-  // apiUrl: 'http://laundry.viprasfacilityerp.com/',
-  // apiUrl: 'http://localhost:9090', //http://localhost:9090/docs/
-  apiUrl: "http://localhost:9095",
+  apiUrl: 'http://skyexapi.viprasplus.com/',
 
-  documentApiUrl: 'https://viprasfacilityerp.com',
+  documentApiUrl: 'https://api.viprasplus.com',
 };
 
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings };
