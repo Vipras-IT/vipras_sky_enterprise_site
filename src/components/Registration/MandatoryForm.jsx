@@ -297,9 +297,9 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
           }}
         /> */}
         <Col md="6">
-          <label>Date Of Join (DD-MM-YYYY)</label>
+          <label>Date Of Join (MM-DD-YYYY)</label>
           <input
-            label="Date (DD-MM-YYYY)"
+            label="Date (MM-DD-YYYY)"
             name="documents.joiningDate"
             type="date"
             className="form-control"
