@@ -77,12 +77,12 @@ const OtherDeductionsInfoview = ({ storePurchaseData, onDelete }) => {
               <h6 className="fs-0 mb-0">Fine</h6>
               <label title="Fname">{get(storePurchaseData, 'fine', '')}</label>
             </div>
-            <div className="h-100 col-md-4">
+            {/* <div className="h-100 col-md-4">
               <h6 className="fs-0 mb-0">ViprasMart</h6>
               <label title="Fname">
                 {get(storePurchaseData, 'viprasMart', '')}
               </label>
-            </div>
+            </div> */}
             <div className="h-100 col-md-4">
               <h6 className="fs-0 mb-0">Attendance Bonus</h6>
               <label title="Fname">

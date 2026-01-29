@@ -85,7 +85,6 @@ const OtherDeductionsHeader = ({
             'Unit Code',
             'Advances Deduction',
             'Transport Deduction',
-            'Vipras Mart Deduction',
             'Fine Deduction',
             'Attendance Bonus',
             'Others Deduction',

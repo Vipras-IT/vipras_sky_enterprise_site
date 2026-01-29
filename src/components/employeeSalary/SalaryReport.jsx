@@ -51,6 +51,9 @@ const SalaryReport = () => {
   const [selectedRowKey, setSelectedRowKey] = useState([]);
   const [searchType, setSearchType] = useState('employeeName');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const userData = JSON.parse(window.localStorage.getItem('user'));
+  const userRole = userData.role;// 'EMPLOYEE'
+  const loggedEmployeeNumber = userData.employeeId; //user employeeId
 
   // const yearOptions = [
   //   {
@@ -95,7 +98,6 @@ const SalaryReport = () => {
     const siteId = currentSiteId;
     const month = currentMonth;
     const year = currentYear;
-
     setModalVisible(true);
     let status = '';
     if (salaryPaid) {
@@ -107,29 +109,54 @@ const SalaryReport = () => {
     if (salaryHold) {
       status = 'HOLD';
     }
-
-    salaryApi
-      .getSalaryBySitecode(
-        siteId,
-        month,
-        year,
-        status,
-        searchType,
-        searchKeyword,
-      )
-      .then((response) => {
-        const responseData = get(response, 'data.data', []);
-        const mapData = responseData.map((item) => {
-          return { ...item, key: item.employeeIDNumber };
+    if (userRole === 'EMPLOYEE') {
+      salaryApi
+        .getEmpSalaryBySitecode(
+          userData.unitCodes[0],
+          month,
+          year,
+          status,
+          searchType,
+          searchKeyword,
+          loggedEmployeeNumber
+        )
+        .then((response) => {
+          const responseData = get(response, 'data.data', []);
+          const mapData = responseData.map((item) => {
+            return { ...item, key: item.employeeIDNumber };
+          });
+          setData(mapData);
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setModalVisible(false);
         });
-        setData(mapData);
-        setModalVisible(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setModalVisible(false);
-      });
-  };
+
+    } else {
+      salaryApi
+        .getSalaryBySitecode(
+          siteId,
+          month,
+          year,
+          status,
+          searchType,
+          searchKeyword,
+        )
+        .then((response) => {
+          const responseData = get(response, 'data.data', []);
+          const mapData = responseData.map((item) => {
+            return { ...item, key: item.employeeIDNumber };
+          });
+          setData(mapData);
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setModalVisible(false);
+        });
+    };
+  }
 
   const totalColumn = [
     {
@@ -180,8 +207,18 @@ const SalaryReport = () => {
       key: 'branch',
       width: 200,
     },
-    { title: 'IFSC CODE', dataIndex: 'ifscCode', key: 'ifscCode', width: 150 },
-    { title: 'MONTH', dataIndex: 'month', key: 'month', width: 150 },
+    {
+      title: 'IFSC CODE',
+      dataIndex: 'ifscCode',
+      key: 'ifscCode',
+      width: 150
+    },
+    {
+      title: 'MONTH',
+      dataIndex: 'month',
+      key: 'month',
+      width: 150
+    },
     {
       title: 'ADVANCES',
       dataIndex: 'advances',
@@ -196,7 +233,12 @@ const SalaryReport = () => {
       width: 150,
       render: (text) => <strong>{formattedAmount(text)}</strong>,
     },
-    { title: 'ID CARD', dataIndex: 'idcard', key: 'idcard', width: 150 },
+    {
+      title: 'ID CARD',
+      dataIndex: 'idcard',
+      key: 'idcard',
+      width: 150
+    },
     // {
     //   title: 'VIPRAS MART',
     //   dataIndex: 'viprasMart',
@@ -209,43 +251,105 @@ const SalaryReport = () => {
       key: 'transport',
       width: 130,
     },
-    { title: 'FINE', dataIndex: 'fine', key: 'fine', width: 130 },
-    { title: 'OTHERS', dataIndex: 'others', key: 'others', width: 130 },
+    {
+      title: 'FINE',
+      dataIndex: 'fine',
+      key: 'fine',
+      width: 130
+    },
+    {
+      title: 'OTHERS',
+      dataIndex: 'others',
+      key: 'others',
+      width: 130
+    },
     {
       title: 'ATTENDANCE BONUS',
       dataIndex: 'attendanceBonus',
       key: 'attendanceBonus',
       width: 150,
     },
+    // {
+    //   title: 'PF %',
+    //   dataIndex: 'pfPercentage',
+    //   key: 'pfPercentage',
+    //   width: 100,
+    // },
+    // {
+    //   title: 'ESI %',
+    //   dataIndex: 'esiPercentage',
+    //   key: 'esiPercentage',
+    //   width: 100,
+    // },
+    // {
+    //   title: 'PF AMONT',
+    //   dataIndex: 'pfAmount',
+    //   key: 'pfAmount',
+    //   width: 120,
+    // },
+    // {
+    //   title: 'ESI AMOUNT',
+    //   dataIndex: 'esiAmount',
+    //   key: 'esiAmount',
+    //   width: 120,
+    // },
+    // {
+    //   title: 'FIXED SALARY',
+    //   dataIndex: 'fixedSalary',
+    //   key: 'fixedSalary',
+    //   width: 130,
+    //   render: (text) => <strong>{formattedAmount(text)}</strong>,
+    // },
     {
-      title: 'PF %',
-      dataIndex: 'pfPercentage',
-      key: 'pfPercentage',
-      width: 100,
+      title: 'Employee "PF" Contribution (12%)',
+      dataIndex: 'employeePf',
+      key: 'employeePf',
+      width: 120,
     },
     {
-      title: 'ESI %',
-      dataIndex: 'esiPercentage',
-      key: 'esiPercentage',
-      width: 100,
+      title: 'Employee "ESI" Contribution (0.75%)',
+      dataIndex: 'employeeEsi',
+      key: 'employeeEsi',
+      width: 120,
     },
     {
-      title: 'PF AMONT',
+      title: 'PF Amount (13%)',
       dataIndex: 'pfAmount',
       key: 'pfAmount',
       width: 120,
     },
     {
-      title: 'ESI AMOUNT',
-      dataIndex: 'esiAmount',
-      key: 'esiAmount',
+      title: 'Employer "ESI" Contribution (3.25%)',
+      dataIndex: 'employerEsi',
+      key: 'employerEsi',
       width: 120,
     },
     {
-      title: 'FIXED SALARY',
-      dataIndex: 'fixedSalary',
-      key: 'fixedSalary',
+      title: 'BASIC SALARY',
+      dataIndex: 'basicSalary',
+      key: 'basicSalary',
       width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'DA',
+      dataIndex: 'da',
+      key: 'da',
+      width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'HRA',
+      dataIndex: 'hra',
+      key: 'hra',
+      width: 130,
+      render: (text) => <strong>{formattedAmount(text)}</strong>,
+    },
+    {
+      title: 'OTHER ALLOWANCE',
+      dataIndex: 'otherAllowance',
+      key: 'otherAllowance',
+      width: 135,
       render: (text) => <strong>{formattedAmount(text)}</strong>,
     },
     {
@@ -280,12 +384,12 @@ const SalaryReport = () => {
         </span>
       ),
     },
-    {
-      title: 'BULK DUTY',
-      dataIndex: 'bulkDuty',
-      key: 'bulkDuty',
-      width: 120,
-    },
+    // {
+    //   title: 'BULK DUTY',
+    //   dataIndex: 'bulkDuty',
+    //   key: 'bulkDuty',
+    //   width: 120,
+    // },
     {
       title: 'TOTAL DUTIES',
       dataIndex: 'totalDuties',
@@ -541,7 +645,7 @@ const SalaryReport = () => {
   const totalAdvances = calculateTotalAdvances('advances');
   const totalEmi = calculateTotalAdvances('emi');
   const totalIdCard = calculateTotalAdvances('idcard');
-  const totalViprasMart = calculateTotalAdvances('viprasMart');
+  // const totalViprasMart = calculateTotalAdvances('viprasMart');
   const totalTransport = calculateTotalAdvances('transport');
   const totalFine = calculateTotalAdvances('fine');
   const totalOthers = calculateTotalAdvances('others');
@@ -662,7 +766,7 @@ const SalaryReport = () => {
               <Col style={style} span={23} offset={1}>
                 <Space wrap>
                   <div className="d-flex flex-wrap justify-content-center align-items-center mb-2  gap-3 px-5">
-                    <Select
+                    {userRole !== 'EMPLOYEE' && (<Select
                       showSearch
                       defaultValue={currentSiteId}
                       placeholder="Select a site"
@@ -674,7 +778,7 @@ const SalaryReport = () => {
                       style={{
                         width: 410,
                       }}
-                    />
+                    />)}
                     <DatePicker
                       format="MMM yyyy"
                       caretAs={BsCalendar2MonthFill}
@@ -682,7 +786,7 @@ const SalaryReport = () => {
                       onChange={handleChange}
                       shouldDisableDate={disableFutureDates}
                     />
-                    <div id="orders-actions">
+                    {userRole !== 'EMPLOYEE' && (<div id="orders-actions">
                       <Checkbox
                         onChange={onChangeSalaryPaid}
                         checked={salaryPaid}
@@ -690,7 +794,9 @@ const SalaryReport = () => {
                         Salary Paid
                       </Checkbox>
                     </div>
-                    <div id="orders-actions">
+                    )}
+
+                    {userRole !== 'EMPLOYEE' && (<div id="orders-actions">
                       <Checkbox
                         onChange={onChangeSalaryNotPaid}
                         checked={salaryNotPaid}
@@ -698,16 +804,18 @@ const SalaryReport = () => {
                         Salary Not Paid
                       </Checkbox>
                     </div>
-                    <div id="orders-actions">
-                      <Checkbox
-                        onChange={onChangeSalaryHold}
-                        checked={salaryHold}
-                      >
-                        Salary Hold
-                      </Checkbox>
-                    </div>
-
-                    <div>
+                    )}
+                    {userRole !== 'EMPLOYEE' && (
+                      <div id="orders-actions">
+                        <Checkbox
+                          onChange={onChangeSalaryHold}
+                          checked={salaryHold}
+                        >
+                          Salary Hold
+                        </Checkbox>
+                      </div>
+                    )}
+                    {userRole !== 'EMPLOYEE' && (<div>
                       <Form.Select
                         size="sm"
                         className="me-2 width-15"
@@ -719,7 +827,7 @@ const SalaryReport = () => {
                         <option value="accountNumber">Account Number</option>
                       </Form.Select>
                     </div>
-
+                    )}
                     <InputGroup className="input-search-width">
                       <FormControl
                         size="sm"
@@ -812,10 +920,10 @@ const SalaryReport = () => {
             &nbsp;&nbsp; TOTAL EMI / UNIFORM : {formattedAmount(totalEmi)} |
           </b>
           <b>&nbsp;&nbsp; TOTAL ID CARD : {totalIdCard} |</b>
-          <b>
+          {/* <b>
             &nbsp;&nbsp; TOTAL VIPRA SMART : {formattedAmount(totalViprasMart)}{' '}
             |
-          </b>
+          </b> */}
           <b>
             &nbsp;&nbsp; TOTAL TRANSPORT : {formattedAmount(totalTransport)} |
           </b>

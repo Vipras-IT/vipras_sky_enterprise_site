@@ -4,7 +4,7 @@ import { Card, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Flex from 'components/common/Flex';
 import SimpleBarReact from 'simplebar-react';
-import siteImage from 'assets/vipras_laundry_logo.jpeg';
+import siteImage from 'assets/Sky-Logo.jpeg'
 import moment from 'moment';
 
 const BestSellingTableRow = ({

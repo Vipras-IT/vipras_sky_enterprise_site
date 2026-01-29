@@ -24,32 +24,22 @@ const EmployeeGrid = ({ employee, handleUpdateAttendace }) => {
     employeeImage,
     month,
   } = employee;
-  const shiftoption = getEmployeeShiftOptions();
-  const [selectedOption, setSelectedOption] = useState(shift);
-
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
-  };
+  const selectedOption = 'G';
 
   const handleCheckInEmployee = (e) => {
-    if (isEmpty(selectedOption)) {
-      toast.error('Please select a shift', {
-        theme: 'colored',
-      });
-    } else {
-      e.preventDefault();
-      const checkInTime = new Date();
-      const today = moment(checkInTime).format();
-      handleUpdateAttendace({
-        employeeNumber,
-        checkIn: today,
-        checkOut,
-        day,
-        shift: selectedOption,
-        designation: designation,
-        employeeName,
-      });
-    }
+    e.preventDefault();
+    const checkInTime = new Date();
+    const today = moment(checkInTime).format();
+    handleUpdateAttendace({
+      employeeNumber,
+      checkIn: today,
+      checkOut,
+      day,
+      shift: selectedOption,
+      designation: designation,
+      employeeName,
+    });
+
   };
 
   const handleCheckOutEmployee = (e) => {
@@ -76,13 +66,13 @@ const EmployeeGrid = ({ employee, handleUpdateAttendace }) => {
 
   const checkInDate = checkIn
     ? `${new Date(checkIn).getDate()} - ${moment(new Date(checkIn)).format(
-        'LT',
-      )}`
+      'LT',
+    )}`
     : '';
   const checkOutDate = checkOut
     ? `${new Date(checkOut).getDate()} - ${moment(new Date(checkOut)).format(
-        'LT',
-      )}`
+      'LT',
+    )}`
     : '';
 
   return (
@@ -104,17 +94,7 @@ const EmployeeGrid = ({ employee, handleUpdateAttendace }) => {
               {employeeName} - {employeeNumber}
             </h6>
             <h6 className="fs-0">{designation}</h6>
-            <Select
-              value={selectedOption}
-              onChange={handleSelectChange}
-              className="shift-select"
-            >
-              {shiftoption.map((item) => (
-                <Option key={item.value} value={item.value}>
-                  {item.label}
-                </Option>
-              ))}
-            </Select>
+            <h6 className="fs-0"><b>Shift</b>: General Shift - G</h6>
           </div>
           <Flex justifyContent="between" className="mx-1 mt-1 mb-1">
             <div>

@@ -297,9 +297,9 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
           }}
         /> */}
         <Col md="6">
-          <label>Date (DD-MM-YYYY)</label>
+          <label>Date Of Join (MM-DD-YYYY)</label>
           <input
-            label="Date (DD-MM-YYYY)"
+            label="Date (MM-DD-YYYY)"
             name="documents.joiningDate"
             type="date"
             className="form-control"
@@ -308,25 +308,52 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
         </Col>
         <WizardInput
           errors={errors}
-          label="Fixed Salary"
+          label="Basic Salary"
           formGroupProps={{ as: Col, sm: 6 }}
-          name="documents.fixedSalary"
+          name="documents.basicSalary"
           // type="number"
           formControlProps={{
-            disabled:
-              user.role === 'ADMIN' || user.role === 'SUPER_ADMIN'
-                ? false
-                : true,
-            ...register('documents.fixedSalary', {
-              pattern: {
-                value: /[0-9]/,
-                message: 'Fixed Salary must be valid',
-              },
+            ...register('documents.basicSalary', {
             }),
           }}
         />
       </Row>
       <Row className="g-2 mb-3">
+        <WizardInput
+          errors={errors}
+          label="DA"
+          formGroupProps={{ as: Col, sm: 6 }}
+          name="documents.da"
+          // type="number"
+          formControlProps={{
+            ...register('documents.da', {
+            }),
+          }}
+        />
+        <WizardInput
+          errors={errors}
+          label="HRA"
+          formGroupProps={{ as: Col, sm: 6 }}
+          name="documents.hra"
+          // type="number"
+          formControlProps={{
+            ...register('documents.hra', {
+            }),
+          }}
+        />
+      </Row>
+      <Row className="g-2 mb-3">
+        <WizardInput
+          errors={errors}
+          label="Other Allowance"
+          formGroupProps={{ as: Col, sm: 6 }}
+          name="documents.otherAllowance"
+          // type="number"
+          formControlProps={{
+            ...register('documents.otherAllowance', {
+            }),
+          }}
+        />
         <WizardInput
           label="ESI Number"
           name="documents.esiNumber"
@@ -350,6 +377,8 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
             }),
           }}
         />
+      </Row>
+      <Row className="g-2 mb-3">
         <WizardInput
           errors={errors}
           label="UAN Number"
@@ -373,8 +402,23 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
             }),
           }}
         />
+        <WizardInput
+          label="Appraisal Date (DD/MM/YYYY)"
+          name="documents.appraisalDate"
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            ...register('documents.appraisalDate', {
+              pattern: {
+                value:
+                  /([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}/i,
+                message: 'Appraisal Date must be valid',
+              },
+            }),
+          }}
+        />
       </Row>
-      <Row className="g-2 mb-3">
+      {/* <Row className="g-2 mb-3">
         <WizardInput
           label="PF Percentage"
           name="documents.pfPercentage"
@@ -395,23 +439,8 @@ const MandatoryForm = ({ register, errors, setValue, empDocuments }) => {
             ...register('documents.esiPercentage'),
           }}
         />
-      </Row>
+      </Row> */}
       <Row className="g-2 mb-3">
-        <WizardInput
-          label="Appraisal Date (DD/MM/YYYY)"
-          name="documents.appraisalDate"
-          errors={errors}
-          formGroupProps={{ as: Col, sm: 6 }}
-          formControlProps={{
-            ...register('documents.appraisalDate', {
-              pattern: {
-                value:
-                  /([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}/i,
-                message: 'Appraisal Date must be valid',
-              },
-            }),
-          }}
-        />
         <WizardInput
           errors={errors}
           label="Appraisal Amount"

@@ -4,6 +4,11 @@ const getTodayAttendance = (siteId, date, month) => {
   return api.get(`/api/v1/employee-attendace/by/${siteId}/${date}/${month}`);
 };
 
+const getTodayEmpAttendance = (siteId, date, month, empId) => {
+  return api.get(`/api/v1/employee-attendace/by/emp/${empId}/${siteId}/${date}/${month}`);
+};
+
+
 const addTodayAttendance = (data) =>
   api.post(`/api/v1/employee-attendace`, data);
 
@@ -89,4 +94,5 @@ export default {
   getAttendanceReportByEmployee,
   getDailyBreakUp,
   EmployeeInfoData,
+  getTodayEmpAttendance,
 };
