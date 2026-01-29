@@ -494,6 +494,47 @@ const EmployeeBasicForm = ({
             ...register('weight'),
           }}
         />
+        <WizardInput
+          label="Latitude"
+          name="latitude"
+          type="number"
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            step: "any",
+            ...register("latitude", {
+              valueAsNumber: true,
+            }),
+          }}
+        />
+      </Row>
+      
+      <Row className="g-2 mb-3">
+        <WizardInput
+          label="Longitude"
+          name="longitude"
+          type="number"
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            step: "any",
+            ...register("longitude", {
+              valueAsNumber: true,
+            }),
+          }}
+        />
+        <WizardInput
+          label="Coverage Area"
+          name="coverageArea"
+          type="number"
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            ...register("coverageArea", {
+              valueAsNumber: true,
+            }),
+          }}
+        />
       </Row>
     </>
   );
