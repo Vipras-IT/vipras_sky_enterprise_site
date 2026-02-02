@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { Table, Card, Button, Spinner, Modal, Form } from 'react-bootstrap';
 import SimpleBarReact from 'simplebar-react';
 import { get } from 'lodash';
-import leavemanagementAPI from '../../api/leavemanagement';
+import leavemanagementAPI from '../../api/leaveManagement';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useAuth } from 'hooks/useAuth';
