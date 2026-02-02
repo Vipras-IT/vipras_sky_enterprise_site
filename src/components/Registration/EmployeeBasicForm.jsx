@@ -134,7 +134,7 @@ const EmployeeBasicForm = ({
       const options = Array.isArray(design)
         ? design.map((item) => item.name)
         : [];
-      if(role) {
+      if (role) {
         let existingRoleIndex = options.findIndex(opt => opt === role)
         options.splice(existingRoleIndex, 1);
       }
@@ -508,7 +508,7 @@ const EmployeeBasicForm = ({
           }}
         />
       </Row>
-      
+
       <Row className="g-2 mb-3">
         <WizardInput
           label="Longitude"
@@ -535,6 +535,32 @@ const EmployeeBasicForm = ({
             }),
           }}
         />
+      </Row>
+      <Row className="g-2 mb-3">
+        <WizardInput
+          label="Start Time"
+          name="startTime"
+          type="time"
+          // type='date'
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            ...register('startTime'),
+          }}
+        />
+
+
+        {/* <WizardInput
+          label="End Time"
+          name="endTime"
+          type="time"
+          errors={errors}
+          formGroupProps={{ as: Col, sm: 6 }}
+          formControlProps={{
+            ...register('endTime'),
+          }}
+        /> */}
+
       </Row>
     </>
   );

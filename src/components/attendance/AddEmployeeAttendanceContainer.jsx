@@ -130,21 +130,31 @@ const AddAttendanceContainer = () => {
     attendanceAPI
       .addTodayAttendance(postData)
       .then((response) => {
-        if (get(response, 'data.success')) {
+        const success = get(response, 'data.success');
+        const message = get(response, 'data.message');
+
+        if (success === true) {
           toast.success('Attendance updated successfully', {
             theme: 'colored',
           });
           getTodayAttendance();
         } else {
-          setModalVisible(false);
-          toast.error('Attendance updated failed', {
-            theme: 'colored',
-          });
+          if (success === false) {
+            setModalVisible(false);
+            toast.error(message || 'Attendance update failed', {
+              theme: 'colored',
+            });
+          } else {
+            setModalVisible(false);
+            toast.error('Attendance update failed', {
+              theme: 'colored',
+            });
+          }
         }
       })
       .catch(() => {
         setModalVisible(false);
-        toast.error('Attendance updated failed', {
+        toast.error('Attendance update failed', {
           theme: 'colored',
         });
       });
