@@ -296,7 +296,7 @@ const LeaveManagement = () => {
     } = useTable(
         {
             columns,
-            data: isSuccess ? data.results : [],
+            data: isSuccess ? [...data.results].sort((a, b) => (b.id || b._id || '').localeCompare(a.id || a._id || '')) : [],
             initialState: {
                 pageIndex: queryPageIndex,
                 pageSize: queryPageSize,
