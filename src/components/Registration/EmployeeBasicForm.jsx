@@ -424,7 +424,8 @@ const EmployeeBasicForm = ({
           formControlProps={{
             ...register('aadharNumber', {
               required:
-                toLower(role) === 'cl' ? false : 'Aadhar No field is required',
+                toLower(role) === 'cl' || toLower(role) === 'cl' || toLower(role) === 'consultant sales executive' || toLower(role) === 'accounts executive'
+                  ? false : 'Aadhar No field is required',
               pattern: {
                 value: /[0-9]{12}/,
                 message: 'Aadhar No must be valid',
