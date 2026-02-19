@@ -60,10 +60,12 @@ const LocalAddressForm = ({ register, errors, setValue, watch }) => {
           errors={errors}
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('localAddress.pincode', {
-              maxLength: 6,
-              pattern: /[0-9]{6}/,
-            }),
+            ...register('localAddress.pincode'
+              // , {
+              // maxLength: 6,
+              // pattern: /[0-9]{6}/,
+              // }
+            ),
           }}
         />
       </Row>
@@ -94,20 +96,22 @@ const LocalAddressForm = ({ register, errors, setValue, watch }) => {
           errors={errors}
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('localAddress.contactNumber', {
-              pattern: {
-                value: /[0-9]{10}/,
-                message: 'Contact number must be valid',
-              },
-              minLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-              maxLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-            }),
+            ...register('localAddress.contactNumber'
+              // ,{
+              //   pattern: {
+              //     value: /[0-9]{10}/,
+              //     message: 'Contact number must be valid',
+              //   },
+              //   minLength: {
+              //     value: 10,
+              //     message: 'Contact number should be 10 char only',
+              //   },
+              //   maxLength: {
+              //     value: 10,
+              //     message: 'Contact number should be 10 char only',
+              //   },
+              // }
+            ),
           }}
         />
         <WizardInput
@@ -116,20 +120,22 @@ const LocalAddressForm = ({ register, errors, setValue, watch }) => {
           errors={errors}
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('localAddress.additionalContactNumber', {
-              pattern: {
-                value: /[0-9]{10}/,
-                message: 'Contact number must be valid',
-              },
-              minLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-              maxLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-            }),
+            ...register('localAddress.additionalContactNumber'
+              //   , {
+              //   pattern: {
+              //     value: /[0-9]{10}/,
+              //     message: 'Contact number must be valid',
+              //   },
+              //   minLength: {
+              //     value: 10,
+              //     message: 'Contact number should be 10 char only',
+              //   },
+              //   maxLength: {
+              //     value: 10,
+              //     message: 'Contact number should be 10 char only',
+              //   },
+              // }
+            ),
           }}
         />
       </Row>
