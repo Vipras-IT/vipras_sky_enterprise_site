@@ -213,11 +213,16 @@ const UpdateAttendance = () => {
       !noOfDuty
     ) {
       openNotificationWithIcon('error', 'Please fill Employee details');
-    } else if (
-      authOfficers.find((emp) => emp.value == employeeNumber) &&
-      managerId != 2
-    ) {
-      openNotificationWithIcon('error', 'You Cannot Allowed to Put Attendance');
+    }
+    //  else if (
+    //   authOfficers.find((emp) => emp.value == employeeNumber) &&
+    //   managerId != 2
+    // ) {
+    //   openNotificationWithIcon('error', 'You Cannot Allowed to Put Attendance');
+    // }
+    else {
+      if (managerId === Number(employeeNumber)) {
+        openNotificationWithIcon('error', 'You Cannot Allowed to Put Attendance');
     } else {
       const todayDate = new Date(selectedDate);
       const currentMonthName = monthNames[todayDate.getMonth()].label;
@@ -249,6 +254,7 @@ const UpdateAttendance = () => {
           employeeNumber,
           postData
         );
+        }
       }
     }
   };
