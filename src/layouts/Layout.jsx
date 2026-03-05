@@ -31,6 +31,7 @@ import AddAttendanceContainer from 'components/attendance/AddEmployeeAttendanceC
 import ShiftScheduleContainer from 'components/attendance/ShiftScheduleContainer';
 import SiteAssest from 'components/Registration/site-details/SiteAssest';
 import AttendanceReportsContainer from 'components/attendance/AttendanceReportsContainer';
+import AttendanceReportsContainerTime from '../components/attendance/attendanceReportContainerTime';
 import UpdateAttendance from 'components/attendance/UpdateAttendance';
 import ManualAttendanceReport from 'components/attendance/ManualAttendanceReport';
 import HomeFormSuvery from 'components/site-survey/HomeForm';
@@ -403,6 +404,10 @@ const Layout = () => {
             <Route path="/site-shiftschedule" element={<SiteShiftSchedule />} />
             <Route path="/shiftplan" element={<ShiftPlan />} />
             <Route path="/siteassest" element={<SiteAssest />} />
+            <Route
+              path="/attendance-report-time"
+              element={<AttendanceReportsContainerTime />}
+            />
             <Route
               path="/attendance-report"
               element={<AttendanceReportsContainer />}
