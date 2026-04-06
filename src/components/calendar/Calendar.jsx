@@ -20,6 +20,24 @@ const Calendar = () => {
   const params = useParams();
   const [employeeInfo, setEmployeeInfo] = useState();
 
+  const targetYear = !isEmpty(get(params, 'employeeId')) ? Number(params.year) : new Date().getFullYear();
+  const targetMonth = !isEmpty(get(params, 'employeeId')) ? Number(params.month) : new Date().getMonth();
+
+  const startDate = new Date(targetYear, targetMonth - 1, 26);
+  const endDate = new Date(targetYear, targetMonth, 26); // Exclusive end
+
+  const formatDate = (date) => {
+    let month = '' + (date.getMonth() + 1);
+    let day = '' + date.getDate();
+    const year = date.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  };
+
+  const visibleRangeStart = formatDate(startDate);
+  const visibleRangeEnd = formatDate(endDate);
+
   useEffect(() => {
     if (!isEmpty(get(params, 'employeeId'))) {
       getCalenderData(params.employeeId, Number(params.month), params.year);
@@ -139,12 +157,11 @@ const Calendar = () => {
               interactionPlugin,
               listPlugin,
             ]}
-            initialView="dayGridMonth"
-            initialDate={
-              !isEmpty(get(params, 'employeeId'))
-                ? new Date(`${params.year}-${Number(params.month) + 1}-01`)
-                : new Date()
-            }
+            initialView="dayGrid"
+            visibleRange={{
+              start: visibleRangeStart,
+              end: visibleRangeEnd
+            }}
             themeSystem="bootstrap"
             dayMaxEvents={2}
             direction={'ltr'}
