@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Row, Space, Spin, Collapse, Input } from 'antd';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { getDaysInMonth, disableFutureDates, monthNames } from 'helpers/utils';
+import { getBillingCycleDays, disableFutureDates, monthNames } from 'helpers/utils';
 import useAPI from 'hooks/useApi';
 import { get, isEmpty } from 'lodash';
 import siteAPI from 'api/siteCreation';
@@ -37,7 +37,7 @@ const AttendanceReportsContainerTime = () => {
 
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const dayColumn = getDaysInMonth(currentMonth, currentYear);
+  const dayColumn = getBillingCycleDays(currentMonth, currentYear);
 
   const searchInput = useRef(null);
 
@@ -287,7 +287,7 @@ const AttendanceReportsContainerTime = () => {
   const handleSearchs = () => {
 
     getAttendanceReport(currentSiteId, currentMonth, currentYear);
-    const dayColumn = getDaysInMonth(currentMonth, currentYear);
+    const dayColumn = getBillingCycleDays(currentMonth, currentYear);
     const columns = [...defaultColumn, ...dayColumn, ...totalColumn];
     setTableColumn(columns);
   };
