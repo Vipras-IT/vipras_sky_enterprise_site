@@ -23,20 +23,22 @@ const PermantAddressForm = ({ register, errors }) => {
           type="number"
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('permanentAddress.pincode', {
-              pattern: {
-                value: /[0-9]{6}/,
-                message: 'Pincode must be valid',
-              },
-              minLength: {
-                value: 6,
-                message: 'Pincode must be valid',
-              },
-              maxLength: {
-                value: 6,
-                message: 'Pincode must be valid',
-              },
-            }),
+            ...register('permanentAddress.pincode'
+              //   , {
+              //   pattern: {
+              //     value: /[0-9]{6}/,
+              //     message: 'Pincode must be valid',
+              //   },
+              //   minLength: {
+              //     value: 6,
+              //     message: 'Pincode must be valid',
+              //   },
+              //   maxLength: {
+              //     value: 6,
+              //     message: 'Pincode must be valid',
+              //   },
+              // }
+            ),
           }}
         />
       </Row>
@@ -67,20 +69,22 @@ const PermantAddressForm = ({ register, errors }) => {
           errors={errors}
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('permanentAddress.contactNumber', {
-              pattern: {
-                value: /[0-9]{10}/,
-                message: 'Contact number must be valid',
-              },
-              minLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-              maxLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-            }),
+            ...register('permanentAddress.contactNumber'
+            //   , {
+            //   pattern: {
+            //     value: /[0-9]{10}/,
+            //     message: 'Contact number must be valid',
+            //   },
+            //   minLength: {
+            //     value: 10,
+            //     message: 'Contact number should be 10 char only',
+            //   },
+            //   maxLength: {
+            //     value: 10,
+            //     message: 'Contact number should be 10 char only',
+            //   },
+            // }
+          ),
           }}
         />
         <WizardInput
@@ -89,20 +93,22 @@ const PermantAddressForm = ({ register, errors }) => {
           errors={errors}
           formGroupProps={{ as: Col, sm: 6 }}
           formControlProps={{
-            ...register('permanentAddress.additionalContactNumber', {
-              pattern: {
-                value: /[0-9]{10}/,
-                message: 'Contact number must be valid',
-              },
-              minLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-              maxLength: {
-                value: 10,
-                message: 'Contact number should be 10 char only',
-              },
-            }),
+            ...register('permanentAddress.additionalContactNumber'
+            //   , {
+            //   pattern: {
+            //     value: /[0-9]{10}/,
+            //     message: 'Contact number must be valid',
+            //   },
+            //   minLength: {
+            //     value: 10,
+            //     message: 'Contact number should be 10 char only',
+            //   },
+            //   maxLength: {
+            //     value: 10,
+            //     message: 'Contact number should be 10 char only',
+            //   },
+            // }
+          ),
           }}
         />
       </Row>

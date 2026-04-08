@@ -31,6 +31,7 @@ import AddAttendanceContainer from 'components/attendance/AddEmployeeAttendanceC
 import ShiftScheduleContainer from 'components/attendance/ShiftScheduleContainer';
 import SiteAssest from 'components/Registration/site-details/SiteAssest';
 import AttendanceReportsContainer from 'components/attendance/AttendanceReportsContainer';
+import AttendanceReportsContainerTime from '../components/attendance/attendanceReportContainerTime';
 import UpdateAttendance from 'components/attendance/UpdateAttendance';
 import ManualAttendanceReport from 'components/attendance/ManualAttendanceReport';
 import HomeFormSuvery from 'components/site-survey/HomeForm';
@@ -151,6 +152,7 @@ import LiabilityList from '../components/liability/LiabilityList';
 import FaceList from '../components/resume/FaceList';
 import SubcontractorRepordsTemp from '../components/Reports/SubcontractorRepordsTemp';
 import SubcontractorMonthlyReports from '../components/Reports/SubcontractorMonthlyReports';
+import LeaveManagement from '../components/Leave-Management/LeaveManagement';
 
 const queryClient = new QueryClient();
 
@@ -403,6 +405,10 @@ const Layout = () => {
             <Route path="/shiftplan" element={<ShiftPlan />} />
             <Route path="/siteassest" element={<SiteAssest />} />
             <Route
+              path="/attendance-report-time"
+              element={<AttendanceReportsContainerTime />}
+            />
+            <Route
               path="/attendance-report"
               element={<AttendanceReportsContainer />}
             />
@@ -430,6 +436,7 @@ const Layout = () => {
                   <SiteAttendanceList />
                 </QueryClientProvider>
               }
+
             />
             {/* <Route
             path="/attendance-report/:employeeId"
@@ -444,6 +451,14 @@ const Layout = () => {
             <Route
               path="/salesingleview/:saleId"
               element={<SaleSingleView />}
+            />
+            <Route
+              path="/leave-management"
+              element={
+                <QueryClientProvider client={queryClient}>
+                  <LeaveManagement />
+                </QueryClientProvider>
+              }
             />
             <Route path="/salary" element={<Salary />} />
             <Route path="/salary/:employeeNumber" element={<Salary />} />
