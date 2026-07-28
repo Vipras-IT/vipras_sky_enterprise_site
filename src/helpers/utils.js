@@ -411,6 +411,29 @@ export const slugifyText = (str) =>
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 
+export const getBillingCycleDays = (month, year) => {
+  const startDate = new Date(year, month - 1, 26);
+  const endDate = new Date(year, month, 25);
+  const days = [];
+  const date = new Date(startDate);
+  
+  while (date <= endDate) {
+    const dayValue = new Date(date);
+    const alldDys = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const dayObj = {
+      title: `${dayValue.getDate()} ${alldDys[dayValue.getDay()]}`,
+      dataIndex: `day${dayValue.getDate()}`,
+      editable: true,
+      width: 90,
+      key: `day${dayValue.getDate()}`,
+      day: dayValue.getDate(),
+    };
+    days.push(dayObj);
+    date.setDate(date.getDate() + 1);
+  }
+  return days;
+};
+
 export const getDaysInMonth = (month, year) => {
   const date = new Date(year, month, 1);
   const days = [];
