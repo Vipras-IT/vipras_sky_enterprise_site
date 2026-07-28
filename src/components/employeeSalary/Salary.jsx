@@ -11,6 +11,7 @@ import SimpleBarReact from 'simplebar-react';
 import { useParams } from 'react-router-dom';
 import employeeAPI from 'api/getEmployeeBySite';
 import salaryApi from 'api/salary';
+import siteAPI from 'api/siteCreation'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useReactToPrint } from 'react-to-print';
@@ -95,38 +96,50 @@ const Salary = () => {
   const contentRef = useRef(null);
   const handlePrint = useReactToPrint({ contentRef });
 
-  useEffect(() => {
-    if (!isEmpty(get(params, 'employeeNumber'))) {
-      salaryApi
-        .getSalaryByEmployee(
-          params.employeeNumber,
-          month,
-          year,
-          get(user, 'token'),
-        )
-        .then((response) => {
-          setEmployeeSalary(response.data.data.employeeSalary);
-          setEmployeeDetails(response.data.data.employee);
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-      employeeAPI
-        .getOtherDeductions(
-          params.employeeNumber,
-          month,
-          year,
-          get(user, 'token'),
-        )
-        .then((res) => {
-          setTableData(res.data.data);
-          console.log('response', res.data.data);
-        })
-        .catch((err) => {
-          console.log('response Error', err);
-        });
-    }
-  }, [params.id]);
+    useEffect(() => {
+
+        salaryApi
+            .getSalaryByEmployee(
+                user.employeeId,
+                month,
+                year,
+                get(user, 'token'),
+            )
+            .then((response) => {
+                setEmployeeSalary(response.data.data.employeeSalary);
+                setEmployeeDetails(response.data.data.employee);
+                const unitCode = response.data.data.employeeSalary?.unitCode || res.data.data.employee?.sitecode;
+                if (unitCode) {
+                    siteAPI
+                        .getSitedetailsBySiteCode(unitCode)
+                        .then((siteRes) => {
+                            setSiteDetails(siteRes.data.data || {})
+                        })
+                        .catch((err) => {
+                            console.log('Erroe fetching site details:', err);
+
+                        })
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+        employeeAPI
+            .getOtherDeductions(
+                user.employeeId,
+                month,
+                year,
+                get(user, 'token'),
+            )
+            .then((res) => {
+                setTableData(res.data.data);
+                console.log('response', res.data.data);
+            })
+            .catch((err) => {
+                console.log('response Error', err);
+            });
+        // }
+    }, [dateValue]);
   const formattedMonth = new Date(
     `${Number(year)}-${Number(month)}`,
   ).toLocaleString('default', { month: 'long' });
