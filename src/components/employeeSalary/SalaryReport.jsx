@@ -523,7 +523,82 @@ const SalaryReport = () => {
       }
     }
   };
+  const exportColumn = [
+    {
+      accessor: 'employeeName',
+      Header: 'Employee Name',
+    },
+    {
+      accessor: 'designation',
+      Header: 'DESIGNATION',
+    },
+    {
+      accessor: 'uanNumber',
+      Header: 'UAN Number',
+    },
+    {
+      accessor: 'esiNumber',
+      Header: 'ESI Number',
+    },
+    {
+      accessor: 'month',
+      Header: 'Month',
+    },
+    {
+      accessor: 'employeePf',
+      Header: 'Employee "PF" Contribution (12%)',
+    },
+    {
+      accessor: 'employeeEsi',
+      Header: 'Employee "ESI" Contribution (0.75%)',
+    },
+    {
+      accessor: 'pfAmount',
+      Header: 'PF Amount (13%)',
+    },
+    {
+      accessor: 'employerEsi',
+      Header: 'Employer "ESI" Contribution (3.25%)',
+    },
+    {
+      accessor: 'basicSalary',
+      Header: 'BASIC SALARY',
+    },
+    {
+      accessor: 'da',
+      Header: 'DA',
+    },
+    {
+      accessor: 'hra',
+      Header: 'HRA'
+    },
 
+    {
+      accessor: 'otherAllowance',
+      Header: 'OTHER ALLOWANCE',
+    },
+    {
+      accessor: 'totalDuties',
+      Header: 'TOTAL DUTIES',
+    },
+    {
+      accessor: 'perDaySalary',
+      Header: 'DAY SALARY',
+    },
+
+    {
+      accessor: 'grossSalary',
+      Header: 'GROSS SALARY',
+    },
+    {
+      accessor: 'totalDeduction',
+      Header: 'TOTAL DEDUCTION',
+    },
+    {
+      accessor: 'netSalary',
+      Header: 'NET SALARY',
+    },
+  ]
   const defaultColumn = [
     {
       title: 'S.NO',
@@ -576,11 +651,11 @@ const SalaryReport = () => {
     } else {
       const currentMonthName = monthNames[currentMonth].label;
       const dataToExport = selectedRows.map((record) =>
-        columns.map((column) => get(record, column.dataIndex, '')),
+        exportColumn.map((column) => get(record, column.accessor, '')),
       );
 
       const worksheet = XLSX.utils.aoa_to_sheet([
-        columns.map((column) => column.title),
+        exportColumn.map((column) => column.Header),
         ...dataToExport,
       ]);
       const workbook = XLSX.utils.book_new();
